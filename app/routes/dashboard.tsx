@@ -32,7 +32,7 @@ function Dashboard() {
               label="Professores"
               icon={ChalkboardSimple}
             >
-              <MenuAccordionItemLink href="/" label="Cadastrar professor" />
+              <MenuAccordionItemLink href="/dashboard/professors/new" label="Cadastrar professor" />
               <MenuAccordionItemLink href="/" label="Lista de professores" />
             </MenuAccordionItem>
             <MenuAccordionItem value="item-2" label="Alunos" icon={Student}>
@@ -55,7 +55,7 @@ function Dashboard() {
           <span className="text-white text-xl">Sair</span>
         </button>
       </aside>
-      <main className="bg-gray-100 p-8">
+      <main className="flex flex-col items-start bg-gray-100 p-8">
         <Outlet />
       </main>
     </div>

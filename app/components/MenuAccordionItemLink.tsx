@@ -1,3 +1,5 @@
+import { Link } from "@remix-run/react";
+
 interface MenuAccordionItemLinkProps {
   href: string;
   label: string;
@@ -9,9 +11,9 @@ export function MenuAccordionItemLink({
 }: MenuAccordionItemLinkProps) {
   return (
     <li className="px-6 py-2 rounded-lg">
-      <a className="text-gray-200" href={href}>
+      <Link className="text-gray-200" to={href}>
         {label}
-      </a>
+      </Link>
     </li>
   );
 }
