@@ -3,13 +3,14 @@ module.exports = {
   content: ["./app/**/*.tsx"],
   theme: {
     colors: {
-      "blue-500": "#0A5EC1",
-      "blue-900": "#012244",
-      "gray-100": "#F6F6F8",
-      "gray-200": "#CED4DA",
+      "green-500": "#1eaca4",
+      "gray-100": "#F2F4F6",
+      "gray-200": "#e6e9ee",
       "gray-500": "#868E96",
       "gray-700": "#343A40",
-      "red-500": "#EC3137",
+      "gray-800": "#121a29",
+      "gray-900": "#001e2f",
+      "red-500": "#ba1a1a",
       white: "#ffffff",
     },
     extend: {
