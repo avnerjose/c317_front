@@ -10,6 +10,7 @@ module.exports = {
       "gray-500": "#868E96",
       "gray-700": "#343A40",
       "red-500": "#EC3137",
+      white: "#ffffff",
     },
     extend: {
       gridTemplateColumns: {
