@@ -10,7 +10,9 @@
     "dev:remix": "remix dev",
     "generate:css": "npx tailwindcss -o ./app/tailwind.css",
     "start": "remix-serve build",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "prepare": "husky install",
+    "commit": "git-cz"
   },
   "dependencies": {
     "@remix-run/node": "^1.14.3",
@@ -21,16 +23,26 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.5.1",
+    "@commitlint/config-conventional": "^17.4.4",
     "@remix-run/dev": "^1.14.3",
     "@remix-run/eslint-config": "^1.14.3",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.8",
+    "commitizen": "^4.3.0",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.27.0",
+    "husky": "^8.0.3",
     "tailwindcss": "^3.2.7",
     "typescript": "^4.8.4",
     "yarn-run-all": "^3.1.1"
   },
   "engines": {
     "node": ">=14"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
