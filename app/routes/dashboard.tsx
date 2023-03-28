@@ -1,5 +1,6 @@
 import { Outlet } from "@remix-run/react";
 import * as Avatar from "@radix-ui/react-avatar";
+import { ExitIcon } from "@radix-ui/react-icons";
 
 function Dashboard() {
   return (
@@ -17,7 +18,8 @@ function Dashboard() {
           </div>
         </div>
 
-        <button className="border-t border-t-gray-200 mt-auto px-6 py-5 flex w-full transition-colors hover:bg-blue-900">
+        <button className="flex gap-4 border-t border-t-gray-200 mt-auto px-6 py-5 w-full transition-colors hover:bg-blue-900">
+          <ExitIcon className="text-white w-6 h-6" />
           <span className="text-white text-xl">Sair</span>
         </button>
       </aside>
