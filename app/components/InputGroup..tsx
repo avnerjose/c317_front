@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-interface InputGroupProps {
+interface InputGroupProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
   name: string;
   placeholder: string;
@@ -12,6 +12,7 @@ export function InputGroup({
   name,
   placeholder,
   error,
+  ...rest
 }: InputGroupProps) {
   return (
     <div className="flex flex-col">
@@ -19,7 +20,6 @@ export function InputGroup({
         {label}
       </label>
       <input
-        type="text"
         id={name}
         className={clsx(
           "mt-3 px-6 py-4 w-[450px] border border-gray-200 rounded-lg   text-gray-800",
@@ -30,6 +30,7 @@ export function InputGroup({
         )}
         name={name}
         placeholder={placeholder}
+        {...rest}
       />
       {error && <span className="text-sm text-red-500 mt-2">{error}</span>}
     </div>
