@@ -17,7 +17,7 @@ export function THead({ children }: ComponentWithChildrenProps) {
 
 export function Th({ children }: ComponentWithChildrenProps) {
   return (
-    <th className="border border-gray-200 text-left px-4 py-3">{children}</th>
+    <th className="border border-gray-200 text-left px-4 py-3 text-gray-800">{children}</th>
   );
 }
 
@@ -25,7 +25,7 @@ export function Td({ children, className }: ComponentWithChildrenProps) {
   return (
     <td
       className={
-        "items-center gap-2 border border-gray-200 px-4 py-3 " + className
+        "items-center gap-2 border border-gray-200 px-4 py-3 text-gray-800 " + className
       }
     >
       {children}

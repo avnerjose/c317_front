@@ -50,7 +50,7 @@ function Dashboard() {
           </Accordion.Root>
         </nav>
 
-        <button className="flex gap-4 border-t border-t-gray-200 mt-auto px-6 py-5 w-full transition-colors hover:bg-gray-900">
+        <button className="flex gap-4 border-t border-t-gray-200 mt-auto px-6 py-5 w-full transition-colors hover:bg-gray-700">
           <SignOut size={24} className="text-white" />
           <span className="text-white text-xl">Sair</span>
         </button>

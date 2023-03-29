@@ -29,7 +29,7 @@ export function MenuAccordionItem({
         />
       </Accordion.AccordionTrigger>
       <Accordion.AccordionContent className="mx-8 transition">
-        <ul>{children}</ul>
+        <ul className="flex flex-col gap-2">{children}</ul>
       </Accordion.AccordionContent>
     </Accordion.Item>
   );

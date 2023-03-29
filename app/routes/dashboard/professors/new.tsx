@@ -80,7 +80,7 @@ function NewProfessor() {
             <button
               disabled={isSubmitting}
               type="submit"
-              className="flex items-center justify-center w-full bg-green-500 text-white font-bold py-4 rounded-lg"
+              className="flex items-center justify-center w-full bg-green-500 text-white font-bold py-4 rounded-lg hover:bg-green-700 transition-colors"
             >
               {isSubmitting && <Spinner />}
               Salvar
@@ -88,7 +88,7 @@ function NewProfessor() {
             <button
               disabled={isSubmitting}
               type="button"
-              className="w-full border border-red-500 text-red-500 font-bold py-4 rounded-lg"
+              className="w-full border border-red-500 text-red-500 font-bold py-4 rounded-lg hover:bg-red-200 transition-colors"
             >
               Cancelar
             </button>
