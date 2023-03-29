@@ -28,6 +28,7 @@ export function InputGroup({
             "focus:outline-green-500": !error,
           }
         )}
+        name={name}
         placeholder={placeholder}
       />
       {error && <span className="text-sm text-red-500 mt-2">{error}</span>}
