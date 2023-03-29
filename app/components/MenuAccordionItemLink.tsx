@@ -1,4 +1,5 @@
-import { Link } from "@remix-run/react";
+import { NavLink } from "@remix-run/react";
+import clsx from "clsx";
 
 interface MenuAccordionItemLinkProps {
   href: string;
@@ -10,10 +11,18 @@ export function MenuAccordionItemLink({
   label,
 }: MenuAccordionItemLinkProps) {
   return (
-    <li className="px-6 py-2 rounded-lg">
-      <Link className="text-gray-200" to={href}>
+    <li className="flex ml-4 rounded-lg">
+      <NavLink
+        className={({ isActive }) =>
+          clsx("text-gray-200 py-2 px-4 rounded-lg", {
+            "bg-green-500 font-semibold": isActive,
+            "bg-gray-800": !isActive,
+          })
+        }
+        to={href}
+      >
         {label}
-      </Link>
+      </NavLink>
     </li>
   );
 }
