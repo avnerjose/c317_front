@@ -1,14 +1,14 @@
 import type { ActionArgs } from "@remix-run/node";
 import { redirect, json } from "@remix-run/node";
 import { Form, useActionData, useNavigation } from "@remix-run/react";
-import * as zod from "zod";
+import { z } from "zod";
 import { InputGroup } from "~/components/InputGroup.";
 import { Spinner } from "~/components/Spinner";
 
 export const action = async ({ request }: ActionArgs) => {
   const formPayload = Object.fromEntries(await request.formData());
-  const newProfessorSchema = zod.z.object({
-    id: zod.z
+  const newProfessorSchema = z.object({
+    id: z
       .number({
         coerce: true,
         invalid_type_error: "Matrícula deve ser um número",
@@ -17,10 +17,10 @@ export const action = async ({ request }: ActionArgs) => {
       .min(1, {
         message: "Matrícula inválida",
       }),
-    name: zod.z.string().min(5, {
+    name: z.string().min(5, {
       message: "O nome deve ter no mínimo 5 caracteres",
     }),
-    email: zod.z.string().email({
+    email: z.string().email({
       message: "E-mail inválido",
     }),
   });
