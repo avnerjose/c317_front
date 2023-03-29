@@ -33,7 +33,7 @@ function Dashboard() {
               icon={ChalkboardSimple}
             >
               <MenuAccordionItemLink href="/dashboard/professors/new" label="Cadastrar professor" />
-              <MenuAccordionItemLink href="/" label="Lista de professores" />
+              <MenuAccordionItemLink href="/dashboard/professors/list" label="Lista de professores" />
             </MenuAccordionItem>
             <MenuAccordionItem value="item-2" label="Alunos" icon={Student}>
               <MenuAccordionItemLink href="/" label="Cadastrar aluno" />
