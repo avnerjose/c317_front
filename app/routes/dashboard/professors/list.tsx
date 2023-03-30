@@ -1,5 +1,6 @@
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import { PageCard } from "~/components/PageCard";
 import { ProfessorsListTable } from "~/components/ProfessorsListTable";
 import { ProfessorsListTableItem } from "~/components/ProfessorsListTableItem";
 
@@ -28,11 +29,7 @@ function ProfessorsList() {
       <h1 className="text-xl text-gray-800">
         Professores / Lista de professores
       </h1>
-      <div className="bg-white drop-shadow-default mt-4 rounded-lg">
-        <div className="py-6 px-16 border-b border-gray-200">
-          <h3 className="text-2xl text-gray-800 ">Lista de professores</h3>
-        </div>
-
+      <PageCard title="Lista de professores">
         <div className="px-16 py-8">
           <ProfessorsListTable>
             {professors.map((professor) => (
@@ -40,7 +37,7 @@ function ProfessorsList() {
             ))}
           </ProfessorsListTable>
         </div>
-      </div>
+      </PageCard>
     </>
   );
 }

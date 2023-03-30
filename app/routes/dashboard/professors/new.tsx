@@ -3,6 +3,7 @@ import { redirect, json } from "@remix-run/node";
 import { Form, useActionData, useNavigation } from "@remix-run/react";
 import { z } from "zod";
 import { InputGroup } from "~/components/InputGroup.";
+import { PageCard } from "~/components/PageCard";
 import { Spinner } from "~/components/Spinner";
 
 export const action = async ({ request }: ActionArgs) => {
@@ -53,10 +54,8 @@ function NewProfessor() {
       <h1 className="text-xl text-gray-800">
         Professores / Cadastrar professor
       </h1>
-      <div className="bg-white drop-shadow-default mt-4 rounded-lg">
-        <div className="py-6 px-16 border-b border-gray-200">
-          <h3 className="text-2xl text-gray-800 ">Cadastrar professor</h3>
-        </div>
+
+      <PageCard title="Cadastrar professor">
         <Form className="flex flex-col gap-3 px-16 py-8" method="post">
           <InputGroup
             name="name"
@@ -94,7 +93,7 @@ function NewProfessor() {
             </button>
           </div>
         </Form>
-      </div>
+      </PageCard>
     </>
   );
 }
