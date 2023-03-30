@@ -65,7 +65,7 @@ function Dashboard() {
                 />
               </MenuAccordionItem>
               <MenuAccordionItem value="item-2" label="Alunos" icon={Student}>
-                <MenuAccordionItemLink href="/" label="Cadastrar aluno" />
+                <MenuAccordionItemLink href="/dashboard/students/new" label="Cadastrar aluno" />
                 <MenuAccordionItemLink href="/" label="Lista de alunos" />
               </MenuAccordionItem>
               <MenuAccordionItem
