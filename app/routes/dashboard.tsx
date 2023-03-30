@@ -1,4 +1,6 @@
-import { Outlet } from "@remix-run/react";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import { redirect, json } from "@remix-run/node";
+import { Form, Outlet } from "@remix-run/react";
 import * as Avatar from "@radix-ui/react-avatar";
 import * as Accordion from "@radix-ui/react-accordion";
 import {
@@ -9,6 +11,21 @@ import {
 } from "phosphor-react";
 import { MenuAccordionItem } from "~/components/MenuAccordionItem";
 import { MenuAccordionItemLink } from "~/components/MenuAccordionItemLink";
+import { getUserSession, logout } from "~/utils/session.server";
+
+export const loader = async ({ request }: LoaderArgs) => {
+  const user = await getUserSession(request);
+
+  if (!user) {
+    return redirect("/login");
+  }
+
+  return json({});
+};
+
+export const action = async ({ request }: ActionArgs) => {
+  return await logout(request);
+};
 
 function Dashboard() {
   return (
@@ -32,8 +49,14 @@ function Dashboard() {
               label="Professores"
               icon={ChalkboardSimple}
             >
-              <MenuAccordionItemLink href="/dashboard/professors/new" label="Cadastrar professor" />
-              <MenuAccordionItemLink href="/dashboard/professors/list" label="Lista de professores" />
+              <MenuAccordionItemLink
+                href="/dashboard/professors/new"
+                label="Cadastrar professor"
+              />
+              <MenuAccordionItemLink
+                href="/dashboard/professors/list"
+                label="Lista de professores"
+              />
             </MenuAccordionItem>
             <MenuAccordionItem value="item-2" label="Alunos" icon={Student}>
               <MenuAccordionItemLink href="/" label="Cadastrar aluno" />
@@ -50,10 +73,15 @@ function Dashboard() {
           </Accordion.Root>
         </nav>
 
-        <button className="flex gap-4 border-t border-t-gray-200 mt-auto px-6 py-5 w-full transition-colors hover:bg-gray-700">
-          <SignOut size={24} className="text-white" />
-          <span className="text-white text-xl">Sair</span>
-        </button>
+        <Form method="post" className="border-t border-t-gray-200 mt-auto">
+          <button
+            type="submit"
+            className="flex gap-4  px-6 py-5 w-full transition-colors hover:bg-gray-700"
+          >
+            <SignOut size={24} className="text-white" />
+            <span className="text-white text-xl">Sair</span>
+          </button>
+        </Form>
       </aside>
       <main className="flex flex-col items-start bg-gray-100 p-8">
         <Outlet />

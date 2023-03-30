@@ -1,9 +1,32 @@
-import type { ActionArgs } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { redirect, json } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
 import { z } from "zod";
 
 import { InputGroup } from "~/components/InputGroup.";
+import {
+  createUserSession,
+  getUserSession,
+  verifyLogin,
+} from "~/utils/session.server";
+
+export const loader = async ({ request }: LoaderArgs) => {
+  const user = await getUserSession(request);
+
+  if (user) {
+    return redirect("/dashboard");
+  }
+
+  return json({});
+};
+
+interface ActionError {
+  errors: {
+    _error?: string;
+    email?: string;
+    password?: string;
+  };
+}
 
 export const action = async ({ request }: ActionArgs) => {
   const formPayload = Object.fromEntries(await request.formData());
@@ -25,7 +48,7 @@ export const action = async ({ request }: ActionArgs) => {
   if (!loginData.success) {
     const formattedErrors = loginData.error.format();
 
-    return json({
+    return json<ActionError>({
       errors: {
         email: formattedErrors["email"]?._errors[0],
         password: formattedErrors["password"]?._errors[0],
@@ -33,7 +56,27 @@ export const action = async ({ request }: ActionArgs) => {
     });
   }
 
-  return redirect("/dashboard");
+  try {
+    const { email, password } = loginData.data;
+    const userSession = await verifyLogin(email, password);
+
+    return createUserSession({
+      request,
+      userSession,
+    });
+  } catch (error) {
+    if (error instanceof Error) {
+      return json<ActionError>({
+        errors: {
+          _error: error.message,
+        },
+      });
+    }
+
+    return json<ActionError>({
+      errors: {},
+    });
+  }
 };
 
 function Login() {
@@ -47,7 +90,12 @@ function Login() {
           Bem-vindo ao Portal Académico! Por favor, faça o login abaixo para
           acessar e administrar informações de sua instituição de ensino.
         </p>
-        <Form method="post" className="flex flex-col gap-4 mt-16">
+        <Form method="post" className="flex flex-col gap-4 mt-8">
+          {actionData?.errors._error && (
+            <div className="bg-red-200 rounded-lg px-4 py-4">
+              <p className="text-red-500">{actionData.errors._error}</p>
+            </div>
+          )}
           <InputGroup
             label="E-mail"
             name="email"
