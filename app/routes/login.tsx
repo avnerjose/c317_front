@@ -4,7 +4,7 @@ import { Form, useActionData } from "@remix-run/react";
 import { z } from "zod";
 import { Button } from "~/components/Button";
 
-import { InputGroup } from "~/components/InputGroup.";
+import { InputGroup } from "~/components/InputGroup";
 import {
   createUserSession,
   getUserSession,

@@ -3,7 +3,7 @@ import { redirect, json } from "@remix-run/node";
 import { Form, useActionData, useNavigation } from "@remix-run/react";
 import { z } from "zod";
 import { Button } from "~/components/Button";
-import { InputGroup } from "~/components/InputGroup.";
+import { InputGroup } from "~/components/InputGroup";
 import { PageCard } from "~/components/PageCard";
 import { Spinner } from "~/components/Spinner";
 

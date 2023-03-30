@@ -22,7 +22,7 @@ export function InputGroup({
       <input
         id={name}
         className={clsx(
-          "mt-3 px-6 py-4 w-[450px] border border-gray-200 rounded-lg   text-gray-800",
+          "mt-3 px-6 py-4 w-[450px] border border-gray-200 rounded-lg  text-gray-800",
           {
             "border-red-500 focus:outline-red-500": error,
             "focus:outline-green-500": !error,
