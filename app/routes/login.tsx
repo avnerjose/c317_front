@@ -2,6 +2,7 @@ import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { redirect, json } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
 import { z } from "zod";
+import { Button } from "~/components/Button";
 
 import { InputGroup } from "~/components/InputGroup.";
 import {
@@ -110,12 +111,7 @@ function Login() {
             type="password"
             error={actionData?.errors.password}
           />
-          <button
-            className="bg-green-500 py-5 rounded-lg mt-12 text-white font-bold hover:bg-green-700 transition-colors focus:outline-green-700"
-            type="submit"
-          >
-            ENTRAR
-          </button>
+          <Button type="submit">ENTRAR</Button>
         </Form>
       </div>
     </div>

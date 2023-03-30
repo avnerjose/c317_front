@@ -2,6 +2,7 @@ import type { ActionArgs } from "@remix-run/node";
 import { redirect, json } from "@remix-run/node";
 import { Form, useActionData, useNavigation } from "@remix-run/react";
 import { z } from "zod";
+import { Button } from "~/components/Button";
 import { InputGroup } from "~/components/InputGroup.";
 import { PageCard } from "~/components/PageCard";
 import { Spinner } from "~/components/Spinner";
@@ -76,21 +77,17 @@ function NewProfessor() {
             error={actionData?.errors?.id}
           />
           <div className="flex gap-4 mt-2">
-            <button
+            <Button
               disabled={isSubmitting}
               type="submit"
-              className="flex items-center justify-center w-full bg-green-500 text-white font-bold py-4 rounded-lg hover:bg-green-700 transition-colors"
+              className="flex items-center justify-center"
             >
               {isSubmitting && <Spinner />}
               Salvar
-            </button>
-            <button
-              disabled={isSubmitting}
-              type="button"
-              className="w-full border border-red-500 text-red-500 font-bold py-4 rounded-lg hover:bg-red-200 transition-colors"
-            >
+            </Button>
+            <Button disabled={isSubmitting} type="button" variant="danger">
               Cancelar
-            </button>
+            </Button>
           </div>
         </Form>
       </PageCard>
