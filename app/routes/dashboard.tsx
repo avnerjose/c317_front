@@ -1,6 +1,6 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { redirect, json } from "@remix-run/node";
-import { Form, Outlet } from "@remix-run/react";
+import { Form, Outlet, useLoaderData } from "@remix-run/react";
 import * as Avatar from "@radix-ui/react-avatar";
 import * as Accordion from "@radix-ui/react-accordion";
 import {
@@ -12,6 +12,7 @@ import {
 import { MenuAccordionItem } from "~/components/MenuAccordionItem";
 import { MenuAccordionItemLink } from "~/components/MenuAccordionItemLink";
 import { getUserSession, logout } from "~/utils/session.server";
+import { HasAccess } from "~/components/HasAccess";
 
 export const loader = async ({ request }: LoaderArgs) => {
   const user = await getUserSession(request);
@@ -20,7 +21,9 @@ export const loader = async ({ request }: LoaderArgs) => {
     return redirect("/login");
   }
 
-  return json({});
+  return json({
+    user,
+  });
 };
 
 export const action = async ({ request }: ActionArgs) => {
@@ -28,6 +31,8 @@ export const action = async ({ request }: ActionArgs) => {
 };
 
 function Dashboard() {
+  const { user } = useLoaderData<typeof loader>();
+
   return (
     <div className="grid grid-cols-dashboard min-h-screen">
       <aside className="flex flex-col bg-gray-800 drop-shadow-default">
@@ -44,32 +49,34 @@ function Dashboard() {
         </div>
         <nav>
           <Accordion.Root type="single" defaultValue="item-1" collapsible>
-            <MenuAccordionItem
-              value="item-1"
-              label="Professores"
-              icon={ChalkboardSimple}
-            >
-              <MenuAccordionItemLink
-                href="/dashboard/professors/new"
-                label="Cadastrar professor"
-              />
-              <MenuAccordionItemLink
-                href="/dashboard/professors/list"
-                label="Lista de professores"
-              />
-            </MenuAccordionItem>
-            <MenuAccordionItem value="item-2" label="Alunos" icon={Student}>
-              <MenuAccordionItemLink href="/" label="Cadastrar aluno" />
-              <MenuAccordionItemLink href="/" label="Lista de alunos" />
-            </MenuAccordionItem>
-            <MenuAccordionItem
-              value="item-3"
-              label="Disciplinas"
-              icon={BookBookmark}
-            >
-              <MenuAccordionItemLink href="/" label="Cadastrar disciplina" />
-              <MenuAccordionItemLink href="/" label="Lista de disciplinas" />
-            </MenuAccordionItem>
+            <HasAccess allowedRole="admin" roles={user.roles}>
+              <MenuAccordionItem
+                value="item-1"
+                label="Professores"
+                icon={ChalkboardSimple}
+              >
+                <MenuAccordionItemLink
+                  href="/dashboard/professors/new"
+                  label="Cadastrar professor"
+                />
+                <MenuAccordionItemLink
+                  href="/dashboard/professors/list"
+                  label="Lista de professores"
+                />
+              </MenuAccordionItem>
+              <MenuAccordionItem value="item-2" label="Alunos" icon={Student}>
+                <MenuAccordionItemLink href="/" label="Cadastrar aluno" />
+                <MenuAccordionItemLink href="/" label="Lista de alunos" />
+              </MenuAccordionItem>
+              <MenuAccordionItem
+                value="item-3"
+                label="Disciplinas"
+                icon={BookBookmark}
+              >
+                <MenuAccordionItemLink href="/" label="Cadastrar disciplina" />
+                <MenuAccordionItemLink href="/" label="Lista de disciplinas" />
+              </MenuAccordionItem>
+            </HasAccess>
           </Accordion.Root>
         </nav>
 
