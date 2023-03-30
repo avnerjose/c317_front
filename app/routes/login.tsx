@@ -111,7 +111,9 @@ function Login() {
             type="password"
             error={actionData?.errors.password}
           />
-          <Button type="submit">ENTRAR</Button>
+          <Button className="mt-12" type="submit">
+            ENTRAR
+          </Button>
         </Form>
       </div>
     </div>

@@ -13,7 +13,7 @@ export function Button({
   return (
     <button
       className={clsx(
-        "py-5 rounded-lg mt-12 font-bold transition-colors w-full " + className,
+        "py-5 rounded-lg font-bold transition-colors w-full " + className,
         {
           "bg-green-500 hover:bg-green-700  focus:outline-green-700 text-white":
             variant === "primary",
