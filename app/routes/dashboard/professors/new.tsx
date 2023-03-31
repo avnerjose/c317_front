@@ -6,6 +6,7 @@ import { Button } from "~/components/Button";
 import { InputGroup } from "~/components/InputGroup";
 import { PageCard } from "~/components/PageCard";
 import { Spinner } from "~/components/Spinner";
+import { generateFormErrors } from "~/utils/generateFormErrors";
 
 export const action = async ({ request }: ActionArgs) => {
   const formPayload = Object.fromEntries(await request.formData());
@@ -30,14 +31,8 @@ export const action = async ({ request }: ActionArgs) => {
   const newProfessor = newProfessorSchema.safeParse(formPayload);
 
   if (!newProfessor.success) {
-    const formattedErrors = newProfessor.error.format();
-
     return json({
-      errors: {
-        id: formattedErrors["id"]?._errors[0],
-        name: formattedErrors["name"]?._errors[0],
-        email: formattedErrors["email"]?._errors[0],
-      },
+      errors: generateFormErrors(newProfessor.error),
     });
   }
 
