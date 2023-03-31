@@ -16,9 +16,8 @@ export const action = async ({ request }: ActionArgs) => {
         coerce: true,
         invalid_type_error: "Matrícula deve ser um número",
       })
-
       .min(1, {
-        message: "Matrícula inválida",
+        message: "Matrícula é obrigatória",
       }),
     name: z.string().min(5, {
       message: "O nome deve ter no mínimo 5 caracteres",
