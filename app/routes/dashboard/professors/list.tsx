@@ -1,8 +1,7 @@
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { PageCard } from "~/components/PageCard";
-import { ProfessorsListTable } from "~/components/ProfessorsListTable";
-import { ProfessorsListTableItem } from "~/components/ProfessorsListTableItem";
+import * as ProfessorsListTable from "~/components/ProfessorsListTable";
 
 export const loader = async () => {
   return json({
@@ -31,11 +30,11 @@ function ProfessorsList() {
       </h1>
       <PageCard title="Lista de professores">
         <div className="px-16 py-8">
-          <ProfessorsListTable>
+          <ProfessorsListTable.Table>
             {professors.map((professor) => (
-              <ProfessorsListTableItem key={professor.id} {...professor} />
+              <ProfessorsListTable.Item key={professor.id} {...professor} />
             ))}
-          </ProfessorsListTable>
+          </ProfessorsListTable.Table>
         </div>
       </PageCard>
     </>
