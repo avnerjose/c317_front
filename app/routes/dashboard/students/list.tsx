@@ -1,7 +1,7 @@
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 
-import * as StudentsLitsTable from "~/components/StudentsListTable";
+import { StudentsListTable} from "~/components/StudentsListTable";
 import { PageCard } from "~/components/PageCard";
 
 export const loader = async () => {
@@ -37,11 +37,11 @@ function StudentsList() {
       <h1 className="text-xl text-gray-800">Alunos / Lista de alunos</h1>
       <PageCard title="Lista de alunos">
         <div className="px-16 py-8">
-          <StudentsLitsTable.Table>
+          <StudentsListTable.Table>
             {students.map((student) => (
-              <StudentsLitsTable.Item key={student.id} {...student} />
+              <StudentsListTable.Item key={student.id} {...student} />
             ))}
-          </StudentsLitsTable.Table>
+          </StudentsListTable.Table>
         </div>
       </PageCard>
     </>

@@ -1,15 +1,12 @@
 import { NavLink } from "@remix-run/react";
 import clsx from "clsx";
 
-interface MenuAccordionItemLinkProps {
+interface LinkProps {
   href: string;
   label: string;
 }
 
-export function MenuAccordionItemLink({
-  href,
-  label,
-}: MenuAccordionItemLinkProps) {
+export function Link({ href, label }: LinkProps) {
   return (
     <li className="flex ml-4 rounded-lg">
       <NavLink

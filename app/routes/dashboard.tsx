@@ -9,8 +9,7 @@ import {
   SignOut,
   Student,
 } from "phosphor-react";
-import { MenuAccordionItem } from "~/components/MenuAccordionItem";
-import { MenuAccordionItemLink } from "~/components/MenuAccordionItemLink";
+import { MenuAccordion } from "~/components/MenuAccordion";
 import { getUserSession, logout } from "~/utils/session.server";
 import { HasAccess } from "~/components/HasAccess";
 
@@ -50,41 +49,41 @@ function Dashboard() {
         <nav>
           <Accordion.Root type="single" defaultValue="item-1" collapsible>
             <HasAccess allowedRole="admin" roles={user.roles}>
-              <MenuAccordionItem
+              <MenuAccordion.Item
                 value="item-1"
                 label="Professores"
                 icon={ChalkboardSimple}
               >
-                <MenuAccordionItemLink
+                <MenuAccordion.Link
                   href="/dashboard/professors/new"
                   label="Cadastrar professor"
                 />
-                <MenuAccordionItemLink
+                <MenuAccordion.Link
                   href="/dashboard/professors/list"
                   label="Lista de professores"
                 />
-              </MenuAccordionItem>
-              <MenuAccordionItem value="item-2" label="Alunos" icon={Student}>
-                <MenuAccordionItemLink
+              </MenuAccordion.Item>
+              <MenuAccordion.Item value="item-2" label="Alunos" icon={Student}>
+                <MenuAccordion.Link
                   href="/dashboard/students/new"
                   label="Cadastrar aluno"
                 />
-                <MenuAccordionItemLink
+                <MenuAccordion.Link
                   href="/dashboard/students/list"
                   label="Lista de alunos"
                 />
-              </MenuAccordionItem>
-              <MenuAccordionItem
+              </MenuAccordion.Item>
+              <MenuAccordion.Item
                 value="item-3"
                 label="Disciplinas"
                 icon={BookBookmark}
               >
-                <MenuAccordionItemLink
+                <MenuAccordion.Link
                   href="/dashboard/discipline/new"
                   label="Cadastrar disciplina"
                 />
-                <MenuAccordionItemLink href="/" label="Lista de disciplinas" />
-              </MenuAccordionItem>
+                <MenuAccordion.Link href="/" label="Lista de disciplinas" />
+              </MenuAccordion.Item>
             </HasAccess>
           </Accordion.Root>
         </nav>

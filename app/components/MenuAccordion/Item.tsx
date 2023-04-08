@@ -2,7 +2,7 @@ import * as Accordion from "@radix-ui/react-accordion";
 import type { IconProps } from "phosphor-react";
 import { CaretRight } from "phosphor-react";
 
-interface MenuAccordionItemProps {
+interface ItemProps {
   value: string;
   label: string;
   icon: React.ForwardRefExoticComponent<
@@ -11,12 +11,7 @@ interface MenuAccordionItemProps {
   children: React.ReactNode;
 }
 
-export function MenuAccordionItem({
-  value,
-  label,
-  icon: Icon,
-  children,
-}: MenuAccordionItemProps) {
+export function Item({ value, label, icon: Icon, children }: ItemProps) {
   return (
     <Accordion.Item value={value}>
       <Accordion.AccordionTrigger className="flex w-full items-center gap-2 px-8 pt-5 pb-2 text-white group">

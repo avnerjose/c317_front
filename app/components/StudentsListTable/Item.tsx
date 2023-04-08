@@ -1,40 +1,15 @@
 import * as Avatar from "@radix-ui/react-avatar";
 import { Trash } from "phosphor-react";
-import * as AppTable from "./Table";
+import { AppTable } from "../AppTable";
 
-interface ProfessorsListTableProps {
-  children: React.ReactNode;
-}
-
-export function Table({ children }: ProfessorsListTableProps) {
-  return (
-    <AppTable.Table>
-      <AppTable.THead>
-        <tr>
-          <AppTable.Th>Nome</AppTable.Th>
-          <AppTable.Th>Email</AppTable.Th>
-          <AppTable.Th>Matrícula</AppTable.Th>
-          <AppTable.Th></AppTable.Th>
-        </tr>
-      </AppTable.THead>
-      <tbody>{children}</tbody>
-    </AppTable.Table>
-  );
-}
-
-
-
-interface ProfessorsListTableItemProps {
+interface ItemProps {
   id: number;
   name: string;
   email: string;
+  course: string;
 }
 
-export function Item({
-  id,
-  name,
-  email,
-}: ProfessorsListTableItemProps) {
+export function Item({ id, name, email, course }: ItemProps) {
   const initials = name
     .split(" ")
     .map((item) => item[0])
@@ -53,6 +28,7 @@ export function Item({
       </AppTable.Td>
       <AppTable.Td>{email}</AppTable.Td>
       <AppTable.Td>{id}</AppTable.Td>
+      <AppTable.Td>{course}</AppTable.Td>
       <AppTable.Td>
         <Trash size={24} className="text-red-500 cursor-pointer" />
       </AppTable.Td>

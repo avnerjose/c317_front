@@ -1,7 +1,7 @@
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { PageCard } from "~/components/PageCard";
-import * as ProfessorsListTable from "~/components/ProfessorsListTable";
+import { ProfessorsListTable } from "~/components/ProfessorsListTable";
 
 export const loader = async () => {
   return json({
