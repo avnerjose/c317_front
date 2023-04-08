@@ -79,7 +79,10 @@ function Dashboard() {
                 label="Disciplinas"
                 icon={BookBookmark}
               >
-                <MenuAccordionItemLink href="/" label="Cadastrar disciplina" />
+                <MenuAccordionItemLink
+                  href="/dashboard/discipline/new"
+                  label="Cadastrar disciplina"
+                />
                 <MenuAccordionItemLink href="/" label="Lista de disciplinas" />
               </MenuAccordionItem>
             </HasAccess>
