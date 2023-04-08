@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  important: true,
   content: ["./app/**/*.tsx"],
   theme: {
     colors: {
@@ -13,6 +14,7 @@ module.exports = {
       "red-500": "#ba1a1a",
       "red-200": "#ECDFDF",
       white: "#ffffff",
+      transparent: "transparent",
     },
     extend: {
       gridTemplateColumns: {
@@ -20,6 +22,9 @@ module.exports = {
       },
       dropShadow: {
         default: "0px 2px 10px rgba(0,0,0,0.25)",
+      },
+      backgroundImage: {
+        "caret-up-down": "url('/img/caret-up-down.svg')",
       },
     },
   },
