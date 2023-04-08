@@ -2,8 +2,7 @@ import clsx from "clsx";
 
 interface InputGroupProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
-  name: string;
-  placeholder: string;
+  placeholder?: string;
   error?: string;
 }
 
@@ -12,6 +11,7 @@ export function InputGroup({
   name,
   placeholder,
   error,
+  children,
   ...rest
 }: InputGroupProps) {
   return (
@@ -22,7 +22,7 @@ export function InputGroup({
       <input
         id={name}
         className={clsx(
-          "mt-3 px-6 py-4 w-[450px] border border-gray-200 rounded-lg  text-gray-800",
+          "mt-3 px-6 py-4 w-[450px] border border-gray-200 rounded-lg  text-gray-800 placeholder-gray-500",
           {
             "border-red-500 focus:outline-red-500": error,
             "focus:outline-green-500": !error,
