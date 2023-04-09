@@ -82,7 +82,10 @@ function Dashboard() {
                   href="/dashboard/discipline/new"
                   label="Cadastrar disciplina"
                 />
-                <MenuAccordion.Link href="/" label="Lista de disciplinas" />
+                <MenuAccordion.Link
+                  href="/dashboard/discipline/list"
+                  label="Lista de disciplinas"
+                />
               </MenuAccordion.Item>
             </HasAccess>
           </Accordion.Root>
