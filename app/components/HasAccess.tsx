@@ -1,12 +1,19 @@
 interface HasAccessProps {
   children: React.ReactNode;
   roles?: string[];
-  allowedRole: string;
+  allowedRoles: string[] | string;
 }
 
-export function HasAccess({ children, allowedRole, roles }: HasAccessProps) {
-  if (roles?.includes(allowedRole)) {
-    return <>{children}</>;
+export function HasAccess({ children, allowedRoles, roles }: HasAccessProps) {
+  if (typeof allowedRoles === "string") {
+    if (roles?.includes(allowedRoles)) {
+      return <>{children}</>;
+    }
+  } else {
+    const hasAccess = allowedRoles.some((role) => roles?.includes(role));
+    if (hasAccess) {
+      return <>{children}</>;
+    }
   }
 
   return null;

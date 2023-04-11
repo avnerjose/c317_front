@@ -48,7 +48,7 @@ function Dashboard() {
         </div>
         <nav>
           <Accordion.Root type="single" defaultValue="item-1" collapsible>
-            <HasAccess allowedRole="admin" roles={user.roles}>
+            <HasAccess allowedRoles="admin" roles={user.roles}>
               <MenuAccordion.Item
                 value="item-1"
                 label="Professores"
@@ -73,19 +73,29 @@ function Dashboard() {
                   label="Lista de alunos"
                 />
               </MenuAccordion.Item>
+            </HasAccess>
+            <HasAccess allowedRoles={["admin", "professor"]} roles={user.roles}>
               <MenuAccordion.Item
                 value="item-3"
                 label="Disciplinas"
                 icon={BookBookmark}
               >
-                <MenuAccordion.Link
-                  href="/dashboard/discipline/new"
-                  label="Cadastrar disciplina"
-                />
-                <MenuAccordion.Link
-                  href="/dashboard/discipline/list"
-                  label="Lista de disciplinas"
-                />
+                <HasAccess allowedRoles="admin" roles={user.roles}>
+                  <MenuAccordion.Link
+                    href="/dashboard/disciplines/new"
+                    label="Cadastrar disciplina"
+                  />
+                  <MenuAccordion.Link
+                    href="/dashboard/disciplines/list"
+                    label="Lista de disciplinas"
+                  />
+                </HasAccess>
+                <HasAccess allowedRoles="professor" roles={user.roles}>
+                  <MenuAccordion.Link
+                    href="/dashboard/disciplines/manage"
+                    label="Gerenciar disciplinas"
+                  />
+                </HasAccess>
               </MenuAccordion.Item>
             </HasAccess>
           </Accordion.Root>
