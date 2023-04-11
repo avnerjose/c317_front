@@ -62,6 +62,13 @@ export async function verifyLogin(email: string, password: string) {
       roles: ["professor"],
       password: "janedoe456",
     },
+    {
+      id: 3,
+      name: "John Smith",
+      email: "smith@email.com",
+      roles: ["admin", "professor"],
+      password: "smith123",
+    },
   ];
 
   const loggedUser = users.find(

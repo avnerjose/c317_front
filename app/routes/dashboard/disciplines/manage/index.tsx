@@ -1,5 +1,10 @@
+import type { MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
+
+export const meta: MetaFunction = () => ({
+  title: "Gerenciar disciplinas",
+});
 
 export const loader = () => {
   return json({

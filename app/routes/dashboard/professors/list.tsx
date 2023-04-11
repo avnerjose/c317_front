@@ -1,7 +1,12 @@
+import type { MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { PageCard } from "~/components/PageCard";
 import { ProfessorsListTable } from "~/components/ProfessorsListTable";
+
+export const meta: MetaFunction = () => ({
+  title: "Lista de professores",
+});
 
 export const loader = async () => {
   return json({

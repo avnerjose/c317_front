@@ -1,5 +1,5 @@
 import type { FormMethod } from "@remix-run/react";
-import type { ActionArgs } from "@remix-run/node";
+import type { ActionArgs, MetaFunction } from "@remix-run/node";
 import type { ActionMeta } from "react-select";
 
 import React, { useState } from "react";
@@ -38,6 +38,10 @@ type Student = {
   email: string;
   course: string;
 };
+
+export const meta: MetaFunction = () => ({
+  title: "Cadastrar disciplina",
+});
 
 export const loader = async () => {
   return json({

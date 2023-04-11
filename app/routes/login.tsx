@@ -1,4 +1,4 @@
-import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { redirect, json } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
 import { z } from "zod";
@@ -10,6 +10,10 @@ import {
   getUserSession,
   verifyLogin,
 } from "~/utils/session.server";
+
+export const meta: MetaFunction = () => ({
+  title: "Login",
+});
 
 export const loader = async ({ request }: LoaderArgs) => {
   const user = await getUserSession(request);

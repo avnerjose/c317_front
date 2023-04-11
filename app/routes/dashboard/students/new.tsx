@@ -1,4 +1,4 @@
-import type { ActionArgs } from "@remix-run/node";
+import type { ActionArgs, MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form, useActionData, useNavigation } from "@remix-run/react";
 import { z } from "zod";
@@ -7,6 +7,10 @@ import { InputGroup } from "~/components/InputGroup";
 import { PageCard } from "~/components/PageCard";
 import { Spinner } from "~/components/Spinner";
 import { generateFormErrors } from "~/utils/generateFormErrors";
+
+export const meta: MetaFunction = () => ({
+  title: "Cadastrar aluno",
+});
 
 export const action = async ({ request }: ActionArgs) => {
   const formPayload = Object.fromEntries(await request.formData());

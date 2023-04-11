@@ -1,7 +1,23 @@
-import type { ErrorBoundaryComponent, LoaderArgs } from "@remix-run/node";
+import type {
+  ErrorBoundaryComponent,
+  LoaderArgs,
+  MetaFunction,
+} from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import { DotsThreeCircle, Plus } from "phosphor-react";
+
+export const meta: MetaFunction<typeof loader> = ({ data, params }) => {
+  if (!data) {
+    return {
+      title: "Gerenciar disciplina - Erro ao gerenciar disciplina",
+    }
+  }
+
+  return {
+    title: `Gerenciar disciplina - ${data.discipline.name}`,
+  };
+};
 
 export const loader = async ({ params }: LoaderArgs) => {
   const { code } = params;
