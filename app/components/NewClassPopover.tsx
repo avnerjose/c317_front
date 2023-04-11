@@ -1,4 +1,4 @@
-import type { Class } from "../routes/dashboard/discipline/new";
+import type { Class } from "../routes/dashboard/disciplines/new";
 import { ptBR } from "date-fns/locale";
 import * as Popover from "@radix-ui/react-popover";
 import { useState } from "react";
