@@ -1,7 +1,6 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { redirect, json } from "@remix-run/node";
 import { Form, Outlet, useLoaderData } from "@remix-run/react";
-import * as Avatar from "@radix-ui/react-avatar";
 import * as Accordion from "@radix-ui/react-accordion";
 import {
   BookBookmark,
