@@ -13,6 +13,11 @@ import { MenuAccordion } from "~/components/MenuAccordion";
 import { getUserSession, logout } from "~/utils/session.server";
 import { HasAccess } from "~/components/HasAccess";
 
+const Roles = {
+  admin: "Administrador",
+  professor: "Professor",
+};
+
 export const loader = async ({ request }: LoaderArgs) => {
   const user = await getUserSession(request);
 
@@ -30,7 +35,9 @@ export const action = async ({ request }: ActionArgs) => {
 };
 
 function Dashboard() {
-  const { user } = useLoaderData<typeof loader>();
+  const {
+    user: { name, roles },
+  } = useLoaderData<typeof loader>();
 
   return (
     <div className="grid grid-cols-dashboard min-h-screen">
@@ -42,13 +49,15 @@ function Dashboard() {
             </Avatar.Fallback>
           </Avatar.Root>
           <div className="flex flex-col">
-            <span className="text-xl font-bold text-white">Renzo Mequista</span>
-            <span className="text-gray-200">Administrador</span>
+            <span className="text-xl font-bold text-white">{name}</span>
+            <span className="text-gray-200">
+              {Roles[roles[0] as keyof typeof Roles]}
+            </span>
           </div>
         </div>
         <nav>
           <Accordion.Root type="single" defaultValue="item-1" collapsible>
-            <HasAccess allowedRoles="admin" roles={user.roles}>
+            <HasAccess allowedRoles="admin" roles={roles}>
               <MenuAccordion.Item
                 value="item-1"
                 label="Professores"
@@ -74,13 +83,13 @@ function Dashboard() {
                 />
               </MenuAccordion.Item>
             </HasAccess>
-            <HasAccess allowedRoles={["admin", "professor"]} roles={user.roles}>
+            <HasAccess allowedRoles={["admin", "professor"]} roles={roles}>
               <MenuAccordion.Item
                 value="item-3"
                 label="Disciplinas"
                 icon={BookBookmark}
               >
-                <HasAccess allowedRoles="admin" roles={user.roles}>
+                <HasAccess allowedRoles="admin" roles={roles}>
                   <MenuAccordion.Link
                     href="/dashboard/disciplines/new"
                     label="Cadastrar disciplina"
@@ -90,7 +99,7 @@ function Dashboard() {
                     label="Lista de disciplinas"
                   />
                 </HasAccess>
-                <HasAccess allowedRoles="professor" roles={user.roles}>
+                <HasAccess allowedRoles="professor" roles={roles}>
                   <MenuAccordion.Link
                     href="/dashboard/disciplines/manage"
                     label="Gerenciar disciplinas"
