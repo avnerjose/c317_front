@@ -12,6 +12,7 @@ import {
 import { MenuAccordion } from "~/components/MenuAccordion";
 import { getUserSession, logout } from "~/utils/session.server";
 import { HasAccess } from "~/components/HasAccess";
+import { AppAvatar } from "~/components/AppAvatar";
 
 const Roles = {
   admin: "Administrador",
@@ -43,11 +44,7 @@ function Dashboard() {
     <div className="grid grid-cols-dashboard min-h-screen">
       <aside className="flex flex-col bg-gray-800 drop-shadow-default">
         <div className="flex items-center gap-2 px-6 py-5 border-b border-gray-200">
-          <Avatar.Root className="flex items-center justify-center bg-green-500 w-14 h-14 rounded-full">
-            <Avatar.Fallback>
-              <span className="text-xl font-bold text-gray-800">RM</span>
-            </Avatar.Fallback>
-          </Avatar.Root>
+          <AppAvatar name={name} />
           <div className="flex flex-col">
             <span className="text-xl font-bold text-white">{name}</span>
             <span className="text-gray-200">
