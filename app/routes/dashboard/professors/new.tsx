@@ -113,12 +113,6 @@ function NewProfessor() {
               placeholder="Digite o telefone do professor"
               error={actionData?.errors?.phone_number}
             />
-            {/* <InputGroup
-              name="phone_number"
-              label="Número de contato"
-              placeholder="Digite o telefone do professor"
-              error={actionData?.errors?.phone_number}
-            /> */}
             <InputGroup
               name="departament"
               label="Departamento"

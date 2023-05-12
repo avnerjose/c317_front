@@ -1,7 +1,10 @@
-import * as Avatar from "@radix-ui/react-avatar";
 import { Trash } from "phosphor-react";
+import { useRevalidator } from "@remix-run/react";
+import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import { AppTable } from "../AppTable";
 import { AppAvatar } from "../AppAvatar";
+import { DeleteModal } from "../DeleteModal";
+import { api } from "~/services/api";
 
 interface ItemProps {
   id: number;
@@ -11,18 +14,38 @@ interface ItemProps {
 }
 
 export function Item({ id, name, email, course }: ItemProps) {
+  const revalidator = useRevalidator();
+
+  const handleDeleteProfessor = async (professorId: number) => {
+    await api.delete(`student/${professorId}`, {
+      method: "DELETE",
+    });
+
+    revalidator.revalidate();
+  };
+
   return (
     <tr>
-      <AppTable.Td className="flex">
-        <AppAvatar name={name} isSmall />
-        {name}
-      </AppTable.Td>
-      <AppTable.Td>{email}</AppTable.Td>
-      <AppTable.Td>{id}</AppTable.Td>
-      <AppTable.Td>{course}</AppTable.Td>
-      <AppTable.Td>
-        <Trash size={24} className="text-red-500 cursor-pointer" />
-      </AppTable.Td>
+      <AlertDialog.Root>
+        <AppTable.Td className="flex">
+          <AppAvatar name={name} isSmall />
+          {name}
+        </AppTable.Td>
+        <AppTable.Td>{email}</AppTable.Td>
+        <AppTable.Td>{id}</AppTable.Td>
+        <AppTable.Td>{course}</AppTable.Td>
+        <AppTable.Td>
+          <AlertDialog.Trigger asChild>
+            <Trash size={24} className="text-red-500 cursor-pointer" />
+          </AlertDialog.Trigger>
+        </AppTable.Td>
+        <DeleteModal
+          id={id}
+          entityName="professor"
+          name={name}
+          onDelete={handleDeleteProfessor}
+        />
+      </AlertDialog.Root>
     </tr>
   );
 }
