@@ -29,6 +29,7 @@
     "phosphor-react": "^1.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-input-mask": "^2.0.4",
     "react-select": "^5.7.2",
     "remix-utils": "^6.1.0",
     "zod": "^3.21.4"
@@ -40,6 +41,7 @@
     "@remix-run/eslint-config": "^1.14.3",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.8",
+    "@types/react-input-mask": "^3.0.2",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.27.0",

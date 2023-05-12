@@ -26,6 +26,9 @@ module.exports = {
       backgroundImage: {
         "caret-up-down": "url('/img/caret-up-down.svg')",
       },
+      translate: {
+        "center-modal": "(-50%,-50%)",
+      },
     },
   },
   plugins: [],
