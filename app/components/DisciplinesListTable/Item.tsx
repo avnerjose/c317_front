@@ -3,16 +3,16 @@ import { AppTable } from "../AppTable";
 import { AppAvatar } from "../AppAvatar";
 
 interface ItemProps {
-  code: string;
+  id: string;
   name: string;
   professor: string;
 }
 
-export function Item({ code, name, professor }: ItemProps) {
+export function Item({ id, name, professor }: ItemProps) {
   return (
     <tr>
       <AppTable.Td>{name}</AppTable.Td>
-      <AppTable.Td>{code}</AppTable.Td>
+      <AppTable.Td>{id}</AppTable.Td>
       <AppTable.Td className="flex">
         <AppAvatar name={professor} isSmall/>
         {professor}

@@ -2,26 +2,25 @@ import type { MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { DisciplinesListTable } from "~/components/DisciplinesListTable";
+import { EmptyState } from "~/components/EmptyState";
 import { PageCard } from "~/components/PageCard";
+import { api } from "~/services/api";
 
 export const meta: MetaFunction = () => ({
   title: "Lista de disciplinas",
 });
 
+type Discipline = {
+  id: string;
+  name: string;
+  professor: string;
+};
+
 export const loader = async () => {
+  const { data } = await api.get<Discipline[]>("/subject");
+
   return json({
-    disciplines: [
-      {
-        name: "Tópicos especiais 1",
-        code: "C317",
-        professor: "Renzo Mesquita",
-      },
-      {
-        name: "Algoritmos 1",
-        code: "C202",
-        professor: "Carlos Ynoguti",
-      },
-    ],
+    disciplines: data,
   });
 };
 
@@ -34,16 +33,25 @@ function DisciplinesList() {
         Disciplinas / Lista de disciplinas
       </h1>
       <PageCard title="Lista de disciplinas">
-        <div className="px-16 py-8">
-          <DisciplinesListTable.Table>
-            {disciplines.map((discipline) => (
-              <DisciplinesListTable.Item
-                key={discipline.code}
-                {...discipline}
-              />
-            ))}
-          </DisciplinesListTable.Table>
-        </div>
+        {disciplines.length ? (
+          <div className="px-16 py-8">
+            <DisciplinesListTable.Table>
+              {disciplines.map((discipline) => (
+                <DisciplinesListTable.Item
+                  key={discipline.id}
+                  {...discipline}
+                />
+              ))}
+            </DisciplinesListTable.Table>
+          </div>
+        ) : (
+          <EmptyState
+            title="Lista de disciplinas vazia"
+            description="Você ainda não tem nenhuma disciplina cadastrada em sua plataforma."
+            linkUrl="/dashboard/discipline/new"
+            linkLabel="Cadastre uma nova disciplina"
+          />
+        )}
       </PageCard>
     </>
   );
