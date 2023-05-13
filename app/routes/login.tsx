@@ -36,15 +36,11 @@ interface ActionError {
 export const action = async ({ request }: ActionArgs) => {
   const formPayload = Object.fromEntries(await request.formData());
   const loginSchema = z.object({
-    email: z
-      .string({
-        required_error: "E-mail é obrigatório",
-      })
-      .email({
-        message: "E-mail inválido",
-      }),
-    password: z.string().min(6, {
-      message: "A senha deve ter no mínimo 6 caracteres",
+    email: z.string({
+      required_error: "E-mail é obrigatório",
+    }),
+    password: z.string().min(5, {
+      message: "A senha deve ter no mínimo 5 caracteres",
     }),
   });
 

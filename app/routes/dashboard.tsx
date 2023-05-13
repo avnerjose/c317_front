@@ -36,7 +36,7 @@ export const action = async ({ request }: ActionArgs) => {
 
 function Dashboard() {
   const {
-    user: { name, roles },
+    user: { name, role },
   } = useLoaderData<typeof loader>();
 
   return (
@@ -47,13 +47,13 @@ function Dashboard() {
           <div className="flex flex-col">
             <span className="text-xl font-bold text-white">{name}</span>
             <span className="text-gray-200">
-              {Roles[roles[0] as keyof typeof Roles]}
+              {Roles[role as keyof typeof Roles]}
             </span>
           </div>
         </div>
         <nav>
           <Accordion.Root type="single" defaultValue="item-1" collapsible>
-            <HasAccess allowedRoles="admin" roles={roles}>
+            <HasAccess allowedRoles="admin" role={role}>
               <MenuAccordion.Item
                 value="item-1"
                 label="Professores"
@@ -79,13 +79,13 @@ function Dashboard() {
                 />
               </MenuAccordion.Item>
             </HasAccess>
-            <HasAccess allowedRoles={["admin", "professor"]} roles={roles}>
+            <HasAccess allowedRoles={["admin", "professor"]} role={role}>
               <MenuAccordion.Item
                 value="item-3"
                 label="Disciplinas"
                 icon={BookBookmark}
               >
-                <HasAccess allowedRoles="admin" roles={roles}>
+                <HasAccess allowedRoles="admin" role={role}>
                   <MenuAccordion.Link
                     href="/dashboard/disciplines/new"
                     label="Cadastrar disciplina"
@@ -95,7 +95,7 @@ function Dashboard() {
                     label="Lista de disciplinas"
                   />
                 </HasAccess>
-                <HasAccess allowedRoles="professor" roles={roles}>
+                <HasAccess allowedRoles="professor" role={role}>
                   <MenuAccordion.Link
                     href="/dashboard/disciplines/manage"
                     label="Gerenciar disciplinas"

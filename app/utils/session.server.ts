@@ -1,11 +1,13 @@
 import { createCookieSessionStorage, redirect } from "@remix-run/node";
+import axios from "axios";
+import jwtDecode from "jwt-decode";
+import { api } from "~/services/api";
 
 type UserSession = {
   id: number;
   name: string;
   email: string;
-  roles: string[];
-  password: string;
+  role: string;
   accessToken: string;
 };
 
@@ -36,7 +38,6 @@ export async function createUserSession({
 }) {
   const session = await getSession(request);
   session.set("user", userSession);
-
   return redirect("/dashboard", {
     headers: {
       "Set-Cookie": await sessionStorage.commitSession(session, {
@@ -47,49 +48,29 @@ export async function createUserSession({
 }
 
 export async function verifyLogin(email: string, password: string) {
-  const users: User[] = [
-    {
-      id: 1,
-      name: "John Doe",
-      email: "john@email.com",
-      roles: ["admin"],
-      password: "johndoe123",
-    },
-    {
-      id: 2,
-      name: "Jane Doe",
-      email: "jane@email.com",
-      roles: ["professor"],
-      password: "janedoe456",
-    },
-    {
-      id: 3,
-      name: "John Smith",
-      email: "smith@email.com",
-      roles: ["admin", "professor"],
-      password: "smith123",
-    },
-  ];
+  try {
+    const { data } = await api.post<{ token: string }>("/login", {
+      email,
+      password,
+    });
+    const user = jwtDecode(data.token) as User;
 
-  const loggedUser = users.find(
-    (user) => user.email === email && user.password === password
-  );
+    const loggedUserSession: UserSession = {
+      ...user,
+      accessToken: data.token,
+    };
 
-  if (!loggedUser) {
+    axios.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
+
+    return loggedUserSession;
+  } catch (e) {
     throw new Error("E-mail ou senha inválidos");
   }
-
-  const loggedUserSession: UserSession = {
-    ...loggedUser,
-    accessToken: Math.random().toString(36),
-  };
-
-  return loggedUserSession;
 }
 
 export async function getUserSession(request: Request) {
   const session = await getSession(request);
-  const user: User | undefined = session.get("user");
+  const user: UserSession | undefined = session.get("user");
   return user;
 }
 
