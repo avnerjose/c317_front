@@ -5,7 +5,7 @@ import { AppTable } from "~/components/AppTable";
 
 export const loader = async ({ params }: LoaderArgs) => {
   const { code } = params;
-  const disciplines = [
+  const subjects = [
     {
       name: "Tópicos especiais 1",
       code: "C317",
@@ -18,34 +18,34 @@ export const loader = async ({ params }: LoaderArgs) => {
     },
   ];
 
-  const discipline = disciplines.find((d) => d.code === code);
+  const subject = subjects.find((d) => d.code === code);
 
-  if (!discipline) {
+  if (!subject) {
     throw new Error("Disciplina não encontrada");
   }
 
   return json({
-    discipline,
+    subject,
   });
 };
 
 
 
-function DisciplineExams() {
+function SubjectExams() {
   const {
-    discipline: { code, name },
+    subject: { code, name },
   } = useLoaderData<typeof loader>();
 
   return (
     <>
       <h2 className="text-xl text-gray-800">
         Disciplinas /{" "}
-        <Link to="/dashboard/disciplines/manage" className="hover:underline">
+        <Link to="/dashboard/subjects/manage" className="hover:underline">
           Gerenciar disciplinas
         </Link>{" "}
         /{" "}
         <Link
-          to={`/dashboard/disciplines/manage/${code}`}
+          to={`/dashboard/subjects/manage/${code}`}
           className="hover:underline"
         >
           {code}
@@ -87,4 +87,4 @@ function DisciplineExams() {
   );
 }
 
-export default DisciplineExams;
+export default SubjectExams;

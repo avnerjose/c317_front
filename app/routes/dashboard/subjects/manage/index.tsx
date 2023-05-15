@@ -8,7 +8,7 @@ export const meta: MetaFunction = () => ({
 
 export const loader = () => {
   return json({
-    disciplines: [
+    subjects: [
       {
         name: "Tópicos especiais 1",
         code: "C317",
@@ -21,8 +21,8 @@ export const loader = () => {
   });
 };
 
-function ManageDisciplines() {
-  const { disciplines } = useLoaderData<typeof loader>();
+function ManageSubjects() {
+  const { subjects } = useLoaderData<typeof loader>();
 
   return (
     <>
@@ -31,19 +31,19 @@ function ManageDisciplines() {
       </h2>
       <h1 className="text-2xl mt-4 text-gray-800">Gerenciar disciplinas</h1>
       <div className="grid grid-cols-4 mt-4 w-full drop-shadow-md gap-6">
-        {disciplines.map((discipline) => (
+        {subjects.map((subject) => (
           <Link
-            to={`/dashboard/disciplines/manage/${discipline.code}`}
+            to={`/dashboard/subjects/manage/${subject.code}`}
             className="flex flex-col items-center overflow-hidden text-gray-700 bg-white rounded-lg hover:bg-gray-200 transition-colors group"
-            key={discipline.code}
+            key={subject.code}
           >
             <div className="bg-green-500 w-full flex items-center justify-center p-4 group-hover:bg-green-700 transition-colors">
               <span className="text-4xl font-bold text-white">
-                {discipline.code}
+                {subject.code}
               </span>
             </div>
             <div className="p-4">
-              <span>{discipline.name}</span>
+              <span>{subject.name}</span>
             </div>
           </Link>
         ))}
@@ -52,4 +52,4 @@ function ManageDisciplines() {
   );
 }
 
-export default ManageDisciplines;
+export default ManageSubjects;

@@ -62,13 +62,10 @@ export const action = async ({ request }: ActionArgs) => {
       professor: JSON.parse(JSON.stringify(newProfessor.data)),
     };
 
-    console.log(body);
-
     await api.post("/professor", body);
 
     return redirect("/dashboard");
   } catch (e) {
-    console.log(JSON.stringify(e, null, 2));
     return json({
       errors: {
         _error:

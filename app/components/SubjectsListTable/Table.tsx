@@ -9,6 +9,7 @@ export function Table({ children }: PropsWithChildren) {
           <AppTable.Th>Nome</AppTable.Th>
           <AppTable.Th>Código</AppTable.Th>
           <AppTable.Th>Professor</AppTable.Th>
+          <AppTable.Th>Aulas</AppTable.Th>
           <AppTable.Th></AppTable.Th>
         </tr>
       </AppTable.THead>

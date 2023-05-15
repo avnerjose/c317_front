@@ -16,10 +16,8 @@ interface ItemProps {
 export function Item({ id, name, email, course }: ItemProps) {
   const revalidator = useRevalidator();
 
-  const handleDeleteProfessor = async (professorId: number) => {
-    await api.delete(`student/${professorId}`, {
-      method: "DELETE",
-    });
+  const handleDeleteProfessor = async (studentId: number | string) => {
+    await api.delete(`student/${studentId}`);
 
     revalidator.revalidate();
   };
@@ -41,7 +39,7 @@ export function Item({ id, name, email, course }: ItemProps) {
         </AppTable.Td>
         <DeleteModal
           id={id}
-          entityName="professor"
+          entityName="estudante"
           name={name}
           onDelete={handleDeleteProfessor}
         />

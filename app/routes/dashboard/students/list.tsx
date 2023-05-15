@@ -59,8 +59,8 @@ export default StudentsList;
 export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
   return (
     <>
-      <h1 className="text-xl text-gray-800">Professores / Lista de alunos</h1>
-      <PageCard title="Lista de professores">
+      <h1 className="text-xl text-gray-800">Alunos / Lista de alunos</h1>
+      <PageCard title="Lista de alunos">
         <div className="flex flex-col items-center gap-2 p-10">
           <img
             className="w-60"

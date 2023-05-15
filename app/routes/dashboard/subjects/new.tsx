@@ -22,13 +22,12 @@ import { MultipleSelectGroup } from "~/components/MultipleSelectGroup";
 import { SelectGroup } from "~/components/SelectGroup";
 import { Button } from "~/components/Button";
 import { generateFormErrors } from "~/utils/generateFormErrors";
+import { api } from "~/services/api";
+import clsx from "clsx";
 
 export type Class = {
   id: string;
-  weekDay: {
-    value: number;
-    label: string;
-  };
+  day: string;
   time: string;
 };
 
@@ -39,62 +38,54 @@ type Student = {
   course: string;
 };
 
+type Professor = {
+  id: number;
+  name: string;
+  email: string;
+  phone_number: string;
+  departament: string;
+};
+
 export const meta: MetaFunction = () => ({
   title: "Cadastrar disciplina",
 });
 
 export const loader = async () => {
+  const { data: students } = await api.get<Student[]>("/student");
+  const { data: professors } = await api.get<Professor[]>("/professor");
+
   return json({
-    students: [
-      {
-        id: 100,
-        name: "Fábio Fiorita",
-        email: "fabio@email.com",
-        course: "Produção",
-      },
-      {
-        id: 320,
-        name: "Bezinho Gandolpho",
-        email: "bzinho@email.com",
-        course: "Software",
-      },
-      {
-        id: 190,
-        name: "Avner José",
-        email: "avner@email.com",
-        course: "Computação",
-      },
-    ],
+    students,
+    professors,
   });
 };
 
 export const action = async ({ request }: ActionArgs) => {
   const data = Object.fromEntries(await request.formData());
-  const newDisciplineSchema = z.object({
+  const newSubjectSchema = z.object({
     name: z.string().nonempty("Nome é obrigatório"),
-    code: z
+    id: z
       .string()
       .nonempty("Código é obrigatório")
       .max(4, "O código deve ter no máximo 4 caracteres")
       .toUpperCase(),
-    professor: z.string().nonempty("É necessário selecionar um professor"),
+    professorId: z.number({
+      coerce: true,
+      invalid_type_error: "Professor inválido",
+    }),
     classes: z.preprocess(
       (val) => JSON.parse(String(val)),
       z
         .array(
           z.object({
-            id: z.string(),
-            weekDay: z.object({
-              value: z.number(),
-              label: z.string(),
-            }),
+            day: z.string(),
             time: z.string(),
           })
         )
         .min(1, "É necessário cadastrar ao menos uma aula")
         .refine((classes) => {
           const noRepeats = new Set(
-            classes.map((item) => `${item.weekDay.value} - ${item.time}`)
+            classes.map((item) => `${item.day} - ${item.time}`)
           );
 
           return noRepeats.size === classes.length;
@@ -104,34 +95,57 @@ export const action = async ({ request }: ActionArgs) => {
       (val) => JSON.parse(String(val)),
       z
         .array(
-          z.object({
-            id: z.number(),
-            name: z.string(),
-            email: z.string(),
-            course: z.string(),
+          z.number({
+            coerce: true,
           })
         )
         .min(1, "É necessário cadastrar ao menos um aluno")
     ),
   });
 
-  const newDiscipline = newDisciplineSchema.safeParse(data);
+  const newSubject = newSubjectSchema.safeParse(data);
 
-  if (!newDiscipline.success) {
+  if (!newSubject.success) {
     return json({
-      errors: generateFormErrors(newDiscipline.error),
+      errors: generateFormErrors(newSubject.error),
     });
   }
+
+  await api.post("/subject", {
+    subject: {
+      id: newSubject.data.id,
+      name: newSubject.data.name,
+    },
+  });
+
+  await api.patch(`/subject/${newSubject.data.id}`, {
+    professor_id: newSubject.data.professorId,
+    student_id: newSubject.data.students.map((student) => student),
+  });
+
+  newSubject.data.classes.forEach(async (c) => {
+    await api.post("/class_schedule", {
+      class_schedule: {
+        day: c.day,
+        time: c.time,
+        subject_id: newSubject.data.id,
+      },
+    });
+  });
 
   return redirect("/dashboard");
 };
 
-function NewDiscipline() {
-  const { students: studentsList } = useLoaderData<typeof loader>();
+function NewSubject() {
+  const { students: studentsList, professors: professorsList } = useLoaderData<
+    typeof loader
+  >();
   const data = useActionData<typeof action>();
   const submit = useSubmit();
   const [classes, setClasses] = useState<Class[]>([]);
   const [students, setStudents] = useState<Student[]>([]);
+  const [professorId, setProfessorId] = useState("");
+  const [isNewClassPopoverOpen, setIsNewClassPopoverOpen] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -140,7 +154,7 @@ function NewDiscipline() {
     const formData = new FormData(form);
 
     formData.set("classes", JSON.stringify(classes));
-    formData.set("students", JSON.stringify(students));
+    formData.set("students", JSON.stringify(students.map((item) => item.id)));
 
     submit(formData, {
       method: (form.getAttribute("method") as FormMethod) ?? "post",
@@ -168,7 +182,9 @@ function NewDiscipline() {
 
   return (
     <>
-      <h1 className="text-xl text-gray-800">Disciplinas / Cadastrar disciplina</h1>
+      <h1 className="text-xl text-gray-800">
+        Disciplinas / Cadastrar disciplina
+      </h1>
       <PageCard title="Cadastrar disciplina">
         <Form
           className="flex flex-col items-end px-16 py-8"
@@ -185,18 +201,32 @@ function NewDiscipline() {
               />
               <InputGroup
                 label="Código"
-                name="code"
+                name="id"
                 placeholder="Digite o código da disciplina ex: C202"
-                error={data?.errors?.code}
+                error={data?.errors?.id}
               />
               <SelectGroup
                 label="Professor"
-                name="professor"
-                placeholder="Selecione o professor da disciplina"
-                error={data?.errors?.professor}
+                name="professorId"
+                error={data?.errors?.professorId}
+                value={professorId}
+                onChange={(e) => setProfessorId(e.target.value)}
+                className={clsx({
+                  "text-gray-500": professorId === "",
+                })}
               >
-                <option value="chris"> Chris Lima</option>
-                <option value="renzo"> Renzo Mesquita</option>
+                <option value="" disabled>
+                  Selecione o professor da disciplina
+                </option>
+                {professorsList.map((professor) => (
+                  <option
+                    className="text-gray-800"
+                    key={professor.id}
+                    value={professor.id}
+                  >
+                    {professor.name}
+                  </option>
+                ))}
               </SelectGroup>
             </div>
             <div className="flex flex-col gap-3">
@@ -209,19 +239,20 @@ function NewDiscipline() {
                       menuIsOpen={false}
                       value={classes}
                       inputValue=""
-                      isDisabled={classes.length === 0}
                       onChange={classesSelectOnChange}
+                      onFocus={() => setIsNewClassPopoverOpen(true)}
                       placeholder="Crie aulas para a disciplina"
                       error={data?.errors?.classes}
                       getOptionLabel={(option) =>
-                        `${option.weekDay.label} - ${option.time}`
+                        `${option.day} - ${option.time}`
                       }
                       append={
-                        <Popover.Root>
+                        <Popover.Root open={isNewClassPopoverOpen}>
                           <Popover.Trigger asChild>
                             <button
                               type="button"
                               className="flex items-center justify-center w-8 h-8 bg-green-500 p-2 hover:bg-green-700 transition-colors rounded-lg focus:outline-green-700"
+                              onClick={() => setIsNewClassPopoverOpen(true)}
                             >
                               <Plus
                                 className="text-white font-bold"
@@ -229,7 +260,11 @@ function NewDiscipline() {
                               />
                             </button>
                           </Popover.Trigger>
-                          <NewClassPopover onSave={addNewClass} />
+                          <NewClassPopover
+                            onSave={addNewClass}
+                            onClose={() => setIsNewClassPopoverOpen(false)}
+                            classesList={classes}
+                          />
                         </Popover.Root>
                       }
                     />
@@ -263,4 +298,4 @@ function NewDiscipline() {
   );
 }
 
-export default NewDiscipline;
+export default NewSubject;

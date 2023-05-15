@@ -2,10 +2,10 @@ import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import { Warning } from "phosphor-react";
 
 interface DeleteModalProps {
-  id: number;
+  id: number | string;
   entityName: string;
   name: string;
-  onDelete: (id: number) => void;
+  onDelete: (id: number | string) => void;
 }
 
 export function DeleteModal({

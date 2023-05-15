@@ -25,10 +25,8 @@ export function Item({
 }: ProfessorsListTableItemProps) {
   const revalidator = useRevalidator();
 
-  const handleDeleteProfessor = async (professorId: number) => {
-    await api.delete(`professor/${professorId}`, {
-      method: "DELETE",
-    });
+  const handleDeleteProfessor = async (professorId: number | string) => {
+    await api.delete(`professor/${professorId}`);
 
     revalidator.revalidate();
   };

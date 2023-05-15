@@ -13,7 +13,7 @@ const selectStyles: ClassNamesConfig = {
   group: () => "bg-gray-700",
   groupHeading: () => "bg-gray-700",
   placeholder: () => "text-gray-500",
-  input: () => "px-6 py-3",
+  input: () => "px-6 py-3 caret-transparent",
   container: (state) =>
     clsx(
       "rounded-lg focus-within:outline focus-within:outline-green-500 w-full",

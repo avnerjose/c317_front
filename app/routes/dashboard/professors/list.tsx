@@ -6,7 +6,7 @@ import { PageCard } from "~/components/PageCard";
 import { ProfessorsListTable } from "~/components/ProfessorsListTable";
 import { api } from "~/services/api";
 
-type Professor = {
+export type Professor = {
   id: number;
   name: string;
   email: string;

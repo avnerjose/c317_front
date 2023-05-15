@@ -1,7 +1,7 @@
 import { Table } from "./Table";
 import { Item } from "./Item";
 
-export const DisciplinesListTable = {
+export const SubjectsListTable = {
   Item,
   Table,
 };

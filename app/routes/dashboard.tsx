@@ -12,6 +12,9 @@ import { MenuAccordion } from "~/components/MenuAccordion";
 import { getUserSession, logout } from "~/utils/session.server";
 import { HasAccess } from "~/components/HasAccess";
 import { AppAvatar } from "~/components/AppAvatar";
+import axios from "axios";
+import { useEffect } from "react";
+import { api } from "~/services/api";
 
 const Roles = {
   admin: "Administrador",
@@ -20,6 +23,10 @@ const Roles = {
 
 export const loader = async ({ request }: LoaderArgs) => {
   const user = await getUserSession(request);
+
+  axios.defaults.headers.common[
+    "Authorization"
+  ] = `Bearer ${user?.accessToken}`;
 
   if (!user) {
     return redirect("/login");
@@ -36,8 +43,14 @@ export const action = async ({ request }: ActionArgs) => {
 
 function Dashboard() {
   const {
-    user: { name, role },
+    user: { name, role, accessToken },
   } = useLoaderData<typeof loader>();
+
+  useEffect(() => {
+    api.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer ${accessToken}`;
+  }, []);
 
   return (
     <div className="grid grid-cols-dashboard min-h-screen">
@@ -87,17 +100,17 @@ function Dashboard() {
               >
                 <HasAccess allowedRoles="admin" role={role}>
                   <MenuAccordion.Link
-                    href="/dashboard/disciplines/new"
+                    href="/dashboard/subjects/new"
                     label="Cadastrar disciplina"
                   />
                   <MenuAccordion.Link
-                    href="/dashboard/disciplines/list"
+                    href="/dashboard/subjects/list"
                     label="Lista de disciplinas"
                   />
                 </HasAccess>
                 <HasAccess allowedRoles="professor" role={role}>
                   <MenuAccordion.Link
-                    href="/dashboard/disciplines/manage"
+                    href="/dashboard/subjects/manage"
                     label="Gerenciar disciplinas"
                   />
                 </HasAccess>

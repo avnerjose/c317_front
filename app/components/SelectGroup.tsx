@@ -28,13 +28,14 @@ export function SelectGroup({
         id={name}
         name={name}
         className={clsx(
-          "block mt-3 px-6 py-4 border border-gray-200 relative rounded-lg text-gray-800  bg-transparent appearance-none bg-caret-up-down bg-no-repeat bg-[right_8px_top_50%] " +
+          "block mt-3 px-6 py-4 border border-gray-200 relative rounded-lg bg-transparent appearance-none bg-caret-up-down bg-no-repeat bg-[right_8px_top_50%] " +
             className,
           {
             "border-red-500 focus:outline-red-500": error,
             "focus:outline-green-500": !error,
             "w-[450px]": !isSmall,
             "w-full": isSmall,
+            "text-gray-800": !className?.includes("text-")
           }
         )}
         {...rest}
