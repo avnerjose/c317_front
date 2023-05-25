@@ -1,23 +1,24 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
+import { api } from "~/services/api";
+import { getUserSession } from "~/utils/session.server";
+
+type Subject = {
+  id: string;
+  name: string;
+};
 
 export const meta: MetaFunction = () => ({
   title: "Gerenciar disciplinas",
 });
 
-export const loader = () => {
+export const loader = async ({ request }: LoaderArgs) => {
+  const user = await getUserSession(request);
+  const { data } = await api.get(`/professor/${user?.id}`);
+
   return json({
-    subjects: [
-      {
-        name: "Tópicos especiais 1",
-        code: "C317",
-      },
-      {
-        name: "Algoritmos 1",
-        code: "C202",
-      },
-    ],
+    subjects: data.subjects as Subject[],
   });
 };
 
@@ -33,13 +34,13 @@ function ManageSubjects() {
       <div className="grid grid-cols-4 mt-4 w-full drop-shadow-md gap-6">
         {subjects.map((subject) => (
           <Link
-            to={`/dashboard/subjects/manage/${subject.code}`}
+            to={`/dashboard/subjects/manage/${subject.id}`}
             className="flex flex-col items-center overflow-hidden text-gray-700 bg-white rounded-lg hover:bg-gray-200 transition-colors group"
-            key={subject.code}
+            key={subject.id}
           >
             <div className="bg-green-500 w-full flex items-center justify-center p-4 group-hover:bg-green-700 transition-colors">
               <span className="text-4xl font-bold text-white">
-                {subject.code}
+                {subject.id}
               </span>
             </div>
             <div className="p-4">

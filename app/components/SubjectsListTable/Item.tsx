@@ -1,3 +1,4 @@
+import type { Professor } from "~/routes/dashboard/professors/list";
 import type { Class } from "~/routes/dashboard/subjects/new";
 import { Trash } from "phosphor-react";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
@@ -5,13 +6,13 @@ import { useRevalidator } from "@remix-run/react";
 
 import { AppTable } from "../AppTable";
 import { AppAvatar } from "../AppAvatar";
-import { DeleteModal } from "../DeleteModal";
 import { api } from "~/services/api";
+import { DeleteModal } from "../DeleteModal";
 
 interface ItemProps {
   id: string;
   name: string;
-  professor: string;
+  professor: Professor | null;
   classes: Class[];
 }
 
@@ -35,8 +36,8 @@ export function Item({ id, name, professor, classes }: ItemProps) {
         <AppTable.Td>{id}</AppTable.Td>
         <AppTable.Td>
           <div className="flex items-center gap-2">
-            <AppAvatar name={professor} isSmall />
-            {professor}
+            <AppAvatar name={professor?.name ?? "Não encontrado"} isSmall />
+            {professor?.name ?? "Não encontrado"}
           </div>
         </AppTable.Td>
         <AppTable.Td>

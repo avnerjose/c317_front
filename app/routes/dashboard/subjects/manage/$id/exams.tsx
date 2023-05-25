@@ -4,7 +4,7 @@ import { Link, useLoaderData } from "@remix-run/react";
 import { AppTable } from "~/components/AppTable";
 
 export const loader = async ({ params }: LoaderArgs) => {
-  const { code } = params;
+  const { id } = params;
   const subjects = [
     {
       name: "Tópicos especiais 1",
@@ -18,18 +18,10 @@ export const loader = async ({ params }: LoaderArgs) => {
     },
   ];
 
-  const subject = subjects.find((d) => d.code === code);
-
-  if (!subject) {
-    throw new Error("Disciplina não encontrada");
-  }
-
   return json({
-    subject,
+    subject: subjects[0],
   });
 };
-
-
 
 function SubjectExams() {
   const {
