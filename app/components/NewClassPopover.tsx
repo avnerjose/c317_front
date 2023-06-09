@@ -74,6 +74,7 @@ export function NewClassPopover({
           isSmall
           value={day}
           onChange={(e) => setWeekDay(e.target.value)}
+          data-test="new-class-weekday"
         >
           {days.map((day) => (
             <option key={day} value={day}>
@@ -88,6 +89,7 @@ export function NewClassPopover({
           isSmall
           placeholder="Selecione o horário"
           onChange={(e) => setTime(e.target.value)}
+          data-test="new-class-time"
         >
           {timeOptions.map((timeOption) => (
             <option key={timeOption} value={timeOption}>
@@ -99,6 +101,7 @@ export function NewClassPopover({
           <button
             onClick={handleSaveClass}
             className="bg-green-500 hover:bg-green-700 rounded-lg w-full text-white font-bold py-2 "
+            data-test="new-class-save"
           >
             Salvar
           </button>

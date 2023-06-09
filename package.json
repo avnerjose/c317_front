@@ -12,7 +12,10 @@
     "start": "remix-serve build",
     "typecheck": "tsc",
     "prepare": "husky install",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "cypress:open": "cypress open NODE_ENV='test'",
+    "cypress:run": "cypress run --spec 'cypress/e2e/**/'",
+    "cypress:generate-report": "mochawesome-merge 'cypress/reports/*.json' > mochawesome.json && marge machawesone-json"
   },
   "dependencies": {
     "@emotion/react": "^11.11.0",
@@ -49,6 +52,8 @@
     "@types/react-dom": "^18.0.8",
     "@types/react-input-mask": "^3.0.2",
     "commitizen": "^4.3.0",
+    "cypress": "^12.13.0",
+    "cypress-mochawesome-reporter": "^3.5.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.27.0",
     "husky": "^8.0.3",

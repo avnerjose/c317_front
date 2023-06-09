@@ -61,6 +61,7 @@ export function MultipleSelectGroup<T>({
               classNames={selectStyles as any}
               isMulti
               aria-errormessage={error}
+              classNamePrefix="react-select"
               {...rest}
             />
             {Append}
@@ -72,6 +73,7 @@ export function MultipleSelectGroup<T>({
           classNames={selectStyles as any}
           isMulti
           aria-errormessage={error}
+          classNamePrefix="react-select"
           {...rest}
         />
       )}

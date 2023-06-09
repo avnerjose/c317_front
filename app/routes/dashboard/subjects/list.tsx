@@ -46,7 +46,11 @@ function SubjectsList() {
           <div className="px-16 py-8">
             <SubjectsListTable.Table>
               {subjects.map((subject) => (
-                <SubjectsListTable.Item key={subject.id} {...subject} />
+                <SubjectsListTable.Item
+                  key={subject.id}
+                  subject={subject}
+                  data-test="subject-list-item"
+                />
               ))}
             </SubjectsListTable.Table>
           </div>

@@ -39,7 +39,11 @@ function ProfessorsList() {
           <div className="px-16 py-8">
             <ProfessorsListTable.Table>
               {professors.map((professor) => (
-                <ProfessorsListTable.Item key={professor.id} {...professor} />
+                <ProfessorsListTable.Item
+                  data-test="professor-list-item"
+                  key={professor.id}
+                  professor={professor}
+                />
               ))}
             </ProfessorsListTable.Table>
           </div>

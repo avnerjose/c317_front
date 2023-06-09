@@ -11,7 +11,7 @@ export function AppAvatar({ name, isSmall = false }: AppAvatarProps) {
     .split(" ")
     .map((item) => item[0])
     .join("")
-    .slice(0, 3)
+    .slice(0, 2)
     .toUpperCase();
 
   return (

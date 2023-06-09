@@ -103,6 +103,7 @@ function Login() {
             placeholder="Digite seu e-mail"
             type="text"
             error={actionData?.errors.email}
+            data-test="email"
           />
           <InputGroup
             label="Senha"
@@ -110,8 +111,9 @@ function Login() {
             placeholder="Digite sua senha"
             type="password"
             error={actionData?.errors.password}
+            data-test="password"
           />
-          <Button className="mt-12" type="submit">
+          <Button className="mt-12" type="submit" data-test="login-button">
             ENTRAR
           </Button>
         </Form>

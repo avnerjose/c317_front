@@ -64,7 +64,7 @@ export const action = async ({ request }: ActionArgs) => {
 
     await api.post("/professor", body);
 
-    return redirect("/dashboard");
+    return redirect("/dashboard/professors/list");
   } catch (e) {
     return json({
       errors: {
@@ -95,12 +95,14 @@ function NewProfessor() {
               label="Nome"
               placeholder="Digite o nome do professor"
               error={actionData?.errors?.name}
+              data-test="name"
             />
             <InputGroup
               name="email"
               label="Email"
               placeholder="Digite o email do professor"
               error={actionData?.errors?.email}
+              data-test="email"
             />
             <InputMaskGroup
               label="Número de contato"
@@ -109,12 +111,14 @@ function NewProfessor() {
               className="mt-3 px-6 py-4 w-[450px] border border-gray-200 rounded-lg  text-gray-800 placeholder-gray-500"
               placeholder="Digite o telefone do professor"
               error={actionData?.errors?.phone_number}
+              data-test="phone_number"
             />
             <InputGroup
               name="departament"
               label="Departamento"
               placeholder="Digite o departamento do professor"
               error={actionData?.errors?.departament}
+              data-test="departament"
             />
             <InputGroup
               name="password"
@@ -122,6 +126,7 @@ function NewProfessor() {
               placeholder="Digite a senha para o professor acessar a plataforma"
               error={actionData?.errors?.password}
               type="password"
+              data-test="password"
             />
           </div>
           <div className="flex gap-4 mt-2 max-w-[50%] w-full ml-auto">
@@ -129,6 +134,7 @@ function NewProfessor() {
               disabled={isSubmitting}
               type="submit"
               className="flex items-center justify-center"
+              data-test="save-button"
             >
               {isSubmitting && <Spinner />}
               Salvar

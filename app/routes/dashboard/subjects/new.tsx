@@ -133,7 +133,7 @@ export const action = async ({ request }: ActionArgs) => {
     });
   });
 
-  return redirect("/dashboard");
+  return redirect("/dashboard/subjects/list");
 };
 
 function NewSubject() {
@@ -198,12 +198,14 @@ function NewSubject() {
                 name="name"
                 placeholder="Digite o nome da disciplina"
                 error={data?.errors?.name}
+                data-test="name"
               />
               <InputGroup
                 label="Código"
                 name="id"
                 placeholder="Digite o código da disciplina ex: C202"
                 error={data?.errors?.id}
+                data-test="id"
               />
               <SelectGroup
                 label="Professor"
@@ -214,6 +216,7 @@ function NewSubject() {
                 className={clsx({
                   "text-gray-500": professorId === "",
                 })}
+                data-test="professor"
               >
                 <option value="" disabled>
                   Selecione o professor da disciplina
@@ -253,6 +256,7 @@ function NewSubject() {
                               type="button"
                               className="flex items-center justify-center w-8 h-8 bg-green-500 p-2 hover:bg-green-700 transition-colors rounded-lg focus:outline-green-700"
                               onClick={() => setIsNewClassPopoverOpen(true)}
+                              data-test="new-class-button"
                             >
                               <Plus
                                 className="text-white font-bold"
@@ -289,7 +293,7 @@ function NewSubject() {
             </div>
           </div>
           <div className="flex gap-4 mt-2 w-[48%] ">
-            <Button type="submit">Salvar</Button>
+            <Button data-test="save-button" type="submit">Salvar</Button>
             <Button variant="danger">Cancelar</Button>
           </div>
         </Form>

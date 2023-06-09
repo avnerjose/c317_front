@@ -47,9 +47,7 @@ function Dashboard() {
   } = useLoaderData<typeof loader>();
 
   useEffect(() => {
-    api.defaults.headers.common[
-      "Authorization"
-    ] = `Bearer ${accessToken}`;
+    api.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   }, []);
 
   return (
@@ -73,22 +71,26 @@ function Dashboard() {
                 icon={ChalkboardSimple}
               >
                 <MenuAccordion.Link
-                  href="/dashboard/professors/new"
+                  to="/dashboard/professors/new"
                   label="Cadastrar professor"
+                  data-test="menu-new-professor"
                 />
                 <MenuAccordion.Link
-                  href="/dashboard/professors/list"
+                  to="/dashboard/professors/list"
                   label="Lista de professores"
+                  data-test="menu-list-professor"
                 />
               </MenuAccordion.Item>
               <MenuAccordion.Item value="item-2" label="Alunos" icon={Student}>
                 <MenuAccordion.Link
-                  href="/dashboard/students/new"
+                  to="/dashboard/students/new"
                   label="Cadastrar aluno"
+                  data-test="menu-new-student"
                 />
                 <MenuAccordion.Link
-                  href="/dashboard/students/list"
+                  to="/dashboard/students/list"
                   label="Lista de alunos"
+                  data-test="menu-list-student"
                 />
               </MenuAccordion.Item>
             </HasAccess>
@@ -100,17 +102,18 @@ function Dashboard() {
               >
                 <HasAccess allowedRoles="admin" role={role}>
                   <MenuAccordion.Link
-                    href="/dashboard/subjects/new"
+                    to="/dashboard/subjects/new"
                     label="Cadastrar disciplina"
+                    data-test="menu-new-subject"
                   />
                   <MenuAccordion.Link
-                    href="/dashboard/subjects/list"
+                    to="/dashboard/subjects/list"
                     label="Lista de disciplinas"
                   />
                 </HasAccess>
                 <HasAccess allowedRoles="professor" role={role}>
                   <MenuAccordion.Link
-                    href="/dashboard/subjects/manage"
+                    to="/dashboard/subjects/manage"
                     label="Gerenciar disciplinas"
                   />
                 </HasAccess>
@@ -123,6 +126,7 @@ function Dashboard() {
           <button
             type="submit"
             className="flex gap-4  px-6 py-5 w-full transition-colors hover:bg-gray-700"
+            data-test="sign-out-button"
           >
             <SignOut size={24} className="text-white" />
             <span className="text-white text-xl">Sair</span>

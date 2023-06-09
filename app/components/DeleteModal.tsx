@@ -24,7 +24,7 @@ export function DeleteModal({
           <div className="bg-red-200 rounded-full p-2 w-fit">
             <Warning className="text-red-500" size={32} />
           </div>
-          Deletar {entityName}
+          <span>Deletar {entityName}</span>
         </AlertDialog.Title>
         <AlertDialog.Description className="text-center my-4">
           Você tem certeza que deseja deletar o {entityName}{" "}
@@ -32,12 +32,16 @@ export function DeleteModal({
         </AlertDialog.Description>
         <div className="flex gap-2 justify-end">
           <AlertDialog.Cancel asChild>
-            <button className="bg-gray-200 text-grau-900 py-2 px-1 rounded-md w-full hover:bg-gray-500">
+            <button
+              data-test="modal-cancel-button"
+              className="bg-gray-200 text-grau-900 py-2 px-1 rounded-md w-full hover:bg-gray-500"
+            >
               Cancelar
             </button>
           </AlertDialog.Cancel>
           <AlertDialog.Action asChild>
             <button
+              data-test="modal-delete-button"
               onClick={handleDelete}
               className="bg-red-500 text-white border py-2 px-1 rounded-md w-full hover:bg-red-200 hover:text-red-500"
             >

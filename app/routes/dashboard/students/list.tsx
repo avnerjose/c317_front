@@ -37,7 +37,11 @@ function StudentsList() {
           <div className="px-16 py-8">
             <StudentsListTable.Table>
               {students.map((student) => (
-                <StudentsListTable.Item key={student.id} {...student} />
+                <StudentsListTable.Item
+                  data-test="student-list-item"
+                  key={student.id}
+                  student={student}
+                />
               ))}
             </StudentsListTable.Table>
           </div>

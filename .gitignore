@@ -9,3 +9,7 @@ node_modules
 /app/styles/tailwind.css
 
 .vscode
+
+cypress/reports
+
+cypress/videos

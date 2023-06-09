@@ -8,20 +8,20 @@ import { api } from "~/services/api";
 import { convertToPhoneNumberFormat } from "~/utils/convertPhoneNumber";
 import { DeleteModal } from "../DeleteModal";
 
-interface ProfessorsListTableItemProps {
-  id: number;
-  name: string;
-  email: string;
-  departament: string;
-  phone_number: string;
+interface ProfessorsListTableItemProps
+  extends React.HTMLAttributes<HTMLTableRowElement> {
+  professor: {
+    id: number;
+    name: string;
+    email: string;
+    departament: string;
+    phone_number: string;
+  };
 }
 
 export function Item({
-  id,
-  name,
-  email,
-  departament,
-  phone_number,
+  professor: { id, name, email, departament, phone_number },
+  ...rest
 }: ProfessorsListTableItemProps) {
   const revalidator = useRevalidator();
 
@@ -32,7 +32,7 @@ export function Item({
   };
 
   return (
-    <tr>
+    <tr {...rest}>
       <AlertDialog.Root>
         <AppTable.Td className="flex">
           <AppAvatar name={name} isSmall />
@@ -44,7 +44,11 @@ export function Item({
         <AppTable.Td>{convertToPhoneNumberFormat(phone_number)}</AppTable.Td>
         <AppTable.Td>
           <AlertDialog.Trigger asChild>
-            <Trash size={24} className="text-red-500 cursor-pointer" />
+            <Trash
+              data-test="delete-button"
+              size={24}
+              className="text-red-500 cursor-pointer"
+            />
           </AlertDialog.Trigger>
         </AppTable.Td>
         <DeleteModal

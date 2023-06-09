@@ -6,14 +6,19 @@ import { AppAvatar } from "../AppAvatar";
 import { DeleteModal } from "../DeleteModal";
 import { api } from "~/services/api";
 
-interface ItemProps {
-  id: number;
-  name: string;
-  email: string;
-  course: string;
+interface ItemProps extends React.HTMLAttributes<HTMLTableRowElement> {
+  student: {
+    id: number;
+    name: string;
+    email: string;
+    course: string;
+  };
 }
 
-export function Item({ id, name, email, course }: ItemProps) {
+export function Item({
+  student: { id, name, email, course },
+  ...rest
+}: ItemProps) {
   const revalidator = useRevalidator();
 
   const handleDeleteProfessor = async (studentId: number | string) => {
@@ -23,7 +28,7 @@ export function Item({ id, name, email, course }: ItemProps) {
   };
 
   return (
-    <tr>
+    <tr {...rest}>
       <AlertDialog.Root>
         <AppTable.Td className="flex">
           <AppAvatar name={name} isSmall />
@@ -34,7 +39,11 @@ export function Item({ id, name, email, course }: ItemProps) {
         <AppTable.Td>{course}</AppTable.Td>
         <AppTable.Td>
           <AlertDialog.Trigger asChild>
-            <Trash size={24} className="text-red-500 cursor-pointer" />
+            <Trash
+              data-test="delete-button"
+              size={24}
+              className="text-red-500 cursor-pointer"
+            />
           </AlertDialog.Trigger>
         </AppTable.Td>
         <DeleteModal

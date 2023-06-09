@@ -43,7 +43,7 @@ export const action = async ({ request }: ActionArgs) => {
 
     await api.post("/student", body);
 
-    return redirect("/dashboard");
+    return redirect("/dashboard/students/list");
   } catch (e) {
     return json({
       errors: {
@@ -71,18 +71,21 @@ function NewStudent() {
               label="Nome"
               placeholder="Digite o nome do aluno"
               error={actionData?.errors.name}
+              data-test="name"
             />
             <InputGroup
               name="email"
               label="Email"
               placeholder="Digite o email do aluno"
               error={actionData?.errors.email}
+              data-test="email"
             />
             <InputGroup
               name="course"
               label="Curso"
               placeholder="Digite o curso do aluno"
               error={actionData?.errors.course}
+              data-test="course"
             />
             <InputGroup
               name="password"
@@ -90,12 +93,14 @@ function NewStudent() {
               placeholder="Digite a senha para o aluno acessar a plataforma"
               error={actionData?.errors.password}
               type="password"
+              data-test="password"
             />
           </div>
           <div className="flex gap-4 mt-2 max-w-[50%] w-full ml-auto">
             <Button
               type="submit"
               className="flex items-center justify-center"
+              data-test="save-button"
               disabled={isSubmitting}
             >
               {isSubmitting && <Spinner />}

@@ -9,14 +9,19 @@ import { AppAvatar } from "../AppAvatar";
 import { api } from "~/services/api";
 import { DeleteModal } from "../DeleteModal";
 
-interface ItemProps {
-  id: string;
-  name: string;
-  professor: Professor | null;
-  classes: Class[];
+interface ItemProps extends React.HTMLAttributes<HTMLTableRowElement> {
+  subject: {
+    id: string;
+    name: string;
+    professor: Professor | null;
+    classes: Class[];
+  };
 }
 
-export function Item({ id, name, professor, classes }: ItemProps) {
+export function Item({
+  subject: { id, name, professor, classes },
+  ...rest
+}: ItemProps) {
   const revalidator = useRevalidator();
 
   const handleDeleteProfessor = async (subjectId: number | string) => {
@@ -30,7 +35,7 @@ export function Item({ id, name, professor, classes }: ItemProps) {
   };
 
   return (
-    <tr>
+    <tr {...rest}>
       <AlertDialog.Root>
         <AppTable.Td>{name}</AppTable.Td>
         <AppTable.Td>{id}</AppTable.Td>
@@ -51,7 +56,11 @@ export function Item({ id, name, professor, classes }: ItemProps) {
         </AppTable.Td>
         <AppTable.Td>
           <AlertDialog.Trigger asChild>
-            <Trash size={24} className="text-red-500 cursor-pointer" />
+            <Trash
+              size={24}
+              className="text-red-500 cursor-pointer"
+              data-test="delete-button"
+            />
           </AlertDialog.Trigger>
         </AppTable.Td>
         <DeleteModal
