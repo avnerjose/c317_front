@@ -5,21 +5,22 @@ import type {
 } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, useLoaderData, useRevalidator } from "@remix-run/react";
-import { DotsThreeCircle, Plus, Trash, Warning } from "phosphor-react";
-import * as  AlertDialog  from "@radix-ui/react-alert-dialog";
+import { Plus, Trash, Warning } from "phosphor-react";
+import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import * as Popover from "@radix-ui/react-popover";
 import { AppTable } from "~/components/AppTable";
 
 import { api } from "~/services/api";
 import { NewExamPopover } from "~/components/NewExamPopover";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import { DeleteModal } from "~/components/DeleteModal";
+import { EditedGradePopover } from "~/components/EditedGradePopover";
 
 dayjs.extend(localizedFormat);
 
-type Exam = {
+export type Exam = {
   id: number;
   date: number;
   code: string;
@@ -85,21 +86,21 @@ export const loader = async ({ params }: LoaderArgs) => {
   const { data } = await api.get<Subject>(`/subject/${id}`);
 
   const grades = await Promise.all(
-    data.exams.map((item) => {
+    data.exams?.map((item) => {
       return api
         .get<APIExam>(`/exam/${item.id}`)
         .then((response) => response.data);
     })
   ).then((exams) => {
     const examsGrades = {} as ExamsGrades;
-    const mappedGrades = exams.map((exam) =>
+    const mappedGrades = exams?.map((exam) =>
       exam.students.reduce((accumulator, student) => {
         accumulator[student.student_id.toString()] = student.grade || 0;
         return accumulator;
       }, {} as Grade)
     );
 
-    const keys = exams.map((item) => item.id);
+    const keys = exams?.map((item) => item.id);
 
     keys.forEach((key, index) => {
       examsGrades[key] = mappedGrades[index];
@@ -111,7 +112,7 @@ export const loader = async ({ params }: LoaderArgs) => {
   return json({
     subject: {
       ...data,
-      classes: data.classes.map((item) => ({
+      classes: data.classes?.map((item) => ({
         ...item,
         time: item.time.split(":").slice(0, 2).join(":"),
       })),
@@ -130,7 +131,9 @@ function ManageSubject() {
   } = useLoaderData<typeof loader>();
   const revalidator = useRevalidator();
   const [isNewExamPopoverOpen, setIsNewExamPopoverOpen] = useState(false);
-  const [grades, setGrades] = useState<ExamsGrades>(initialGrades);
+  const [grades, setGrades] = useState<ExamsGrades>(
+    JSON.parse(JSON.stringify(initialGrades))
+  );
   const [editedExams, setEditedExams] = useState<number[]>([]);
 
   const handleUpdateGrade = (
@@ -156,6 +159,28 @@ function ManageSubject() {
     });
 
     revalidator.revalidate();
+  };
+
+  const handleDeleteExam = async (examId: number | string) => {
+    await api.delete(`exam/${examId}`);
+
+    revalidator.revalidate();
+  };
+
+  const handleDiscardChangesOnGrades = async (examId: number | string) => {
+    const newGrades = { ...grades };
+    const oldGrades = { ...initialGrades };
+    
+    newGrades[examId] = oldGrades[examId];
+    
+    setEditedExams((prev) => prev.filter((id) => id !== examId));
+    setGrades(newGrades);
+  };
+
+  const handleSaveChanges = async (examId: number | string) => {
+    
+    
+    setEditedExams((prev) => prev.filter((id) => id !== examId));
   };
 
   return (
@@ -249,12 +274,10 @@ function ManageSubject() {
                 </tr>
               </thead>
               <tbody className="text-gray-y00">
-                {exams.map((item) => (
+                {exams?.map((item) => (
                   <tr key={item.date}>
                     <AlertDialog.Root>
-                      <td>
-                        {item.code} - {item.id}
-                      </td>
+                      <td>{item.code}</td>
                       <td>
                         {dayjs(item.date, {
                           locale: "pt-br",
@@ -269,7 +292,7 @@ function ManageSubject() {
                         entityName="avaliação"
                         id={item.id}
                         name={item.code}
-                        onDelete={() => {}}
+                        onDelete={handleDeleteExam}
                       />
                     </AlertDialog.Root>
                   </tr>
@@ -284,12 +307,21 @@ function ManageSubject() {
           <AppTable.THead>
             <tr>
               <AppTable.Th>Alunos</AppTable.Th>
-              {exams.map((item) => (
+              {exams?.map((item) => (
                 <AppTable.Th key={item.id}>
                   <div className="flex items-center gap-1">
                     {item.code}{" "}
                     {editedExams.includes(item.id) && (
-                      <Warning className="text-red-500" />
+                      <Popover.Root>
+                        <EditedGradePopover
+                          exam={item}
+                          onDiscardChanges={handleDiscardChangesOnGrades}
+                          onClose={() => {}}
+                        />
+                        <Popover.Trigger asChild>
+                          <Warning className="text-red-500" />
+                        </Popover.Trigger>
+                      </Popover.Root>
                     )}
                   </div>
                 </AppTable.Th>
@@ -297,10 +329,10 @@ function ManageSubject() {
             </tr>
           </AppTable.THead>
           <tbody>
-            {students.map((student, i) => (
+            {students?.map((student, i) => (
               <tr key={student.id}>
                 <AppTable.Td>{student.name}</AppTable.Td>
-                {exams.map((exam) => (
+                {exams?.map((exam) => (
                   <AppTable.Td key={exam.id} className="p-0">
                     <div className="flex items-start h-full">
                       <input
